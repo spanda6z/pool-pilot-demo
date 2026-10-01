@@ -1,61 +1,52 @@
 import Link from "next/link";
-import { DemoBadge } from "@/components/DemoBadge";
-import { Address } from "@/components/Address";
-import { CONTRACTS, MOCK_BOOKS, CHAIN } from "@/lib/mock-data";
+import { MOCK_BOOKS } from "@/lib/mock-data";
 
-export default function VerifyPage() {
+export default function ProjectsPage() {
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-black">
-          <span className="text-mint">▸</span> VERIFY
-        </h1>
-        <DemoBadge />
+    <div className="space-y-5 pb-4">
+      <div className="flex items-center justify-between gap-3">
+        <h1 className="font-display text-xl font-bold">Projects</h1>
+        <Link href="/launch" className="btn btn-primary text-sm min-h-[40px] px-4">
+          Start a book
+        </Link>
       </div>
 
-      <p className="text-secondary text-sm max-w-2xl">
-        Full contract registry. Every address is copyable and linked to the explorer.
-        DEMO addresses — confirm real deployments before relying on them.
+      <p className="text-secondary text-sm">
+        Books you opened. Demo shows public books as a stand-in.
       </p>
 
-      <section className="pixel-card p-5">
-        <h2 className="text-sm font-bold tracking-widest text-cyan mb-4">
-          ▸ PROTOCOL CONTRACTS
-        </h2>
-        <div className="space-y-3 text-xs">
-          {Object.entries(CONTRACTS).map(([name, addr]) => (
-            <div
-              key={name}
-              className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-2 border-b border-[var(--pixel-border)]"
-            >
-              <span className="text-secondary w-40 capitalize shrink-0">
-                {name.replace(/([A-Z])/g, " $1")}
-              </span>
-              <Address value={addr} full />
+      <div className="space-y-3">
+        {MOCK_BOOKS.map((b) => {
+          const seats = Math.min(b.seatsTaken, 18);
+          const badge =
+            seats >= 18 ? "pill-muted" : seats > 0 ? "pill-fill" : "pill-live";
+          const label = seats >= 18 ? "Full" : seats > 0 ? "Filling" : "Live";
+          return (
+            <div key={b.id} className="card p-4 space-y-3">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="w-10 h-10 rounded-full bg-[var(--control)] border border-[var(--border)] flex items-center justify-center font-display text-xs font-bold shrink-0">
+                    {b.symbol.slice(0, 2)}
+                  </span>
+                  <div className="min-w-0">
+                    <div className="font-display font-bold text-sm">${b.symbol}</div>
+                    <div className="text-xs text-muted">{seats}/18 seats · Creator</div>
+                  </div>
+                </div>
+                <span className={`pill ${badge}`}>{label}</span>
+              </div>
+              <div className="flex gap-2">
+                <Link href={`/books/${b.id}`} className="btn btn-secondary flex-1 text-sm min-h-[40px]">
+                  Open book
+                </Link>
+                <button type="button" className="btn btn-ghost flex-1 text-sm min-h-[40px]" disabled>
+                  Invite
+                </button>
+              </div>
             </div>
-          ))}
-        </div>
-        <p className="text-[10px] text-muted mt-4">
-          Chain {CHAIN.id} · Explorer: {CHAIN.explorer} · Source: static registry · Last refresh: demo
-        </p>
-      </section>
-
-      <section className="pixel-card p-5">
-        <h2 className="text-sm font-bold tracking-widest text-gold mb-4">
-          ▸ BOOK PROOFS
-        </h2>
-        <div className="space-y-2">
-          {MOCK_BOOKS.map((b) => (
-            <Link
-              key={b.id}
-              href={`/verify/${b.id}`}
-              className="block py-2 text-sm text-cyan hover:underline"
-            >
-              {b.name} (${b.symbol}) →
-            </Link>
-          ))}
-        </div>
-      </section>
+          );
+        })}
+      </div>
     </div>
   );
 }

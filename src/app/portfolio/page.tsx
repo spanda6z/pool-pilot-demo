@@ -2,101 +2,74 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { DemoBadge } from "@/components/DemoBadge";
-import { Address } from "@/components/Address";
 import { MOCK_PORTFOLIO } from "@/lib/mock-data";
 
-export default function PortfolioPage() {
+export default function SeatsPage() {
   const [connected, setConnected] = useState(false);
 
   if (!connected) {
     return (
-      <div className="max-w-md mx-auto pixel-card p-8 text-center space-y-5">
-        <h1 className="text-xl font-black tracking-tight">Portfolio</h1>
-        <p className="text-secondary text-sm leading-relaxed">
-          Connect your wallet to view balances and seat NFTs.
+      <div className="card p-8 text-center space-y-4 max-w-sm mx-auto mt-8">
+        <h1 className="font-display text-xl font-bold">Seats</h1>
+        <p className="text-secondary text-sm">
+          Connect your wallet to see chairs you hold.
         </p>
-        <button
-          type="button"
-          onClick={() => setConnected(true)}
-          className="pixel-btn btn-cyan px-8 py-3 text-sm w-full sm:w-auto"
-        >
-          Connect Wallet
+        <button type="button" onClick={() => setConnected(true)} className="btn btn-primary btn-full">
+          Connect
         </button>
-        <div className="flex justify-center">
-          <DemoBadge />
-        </div>
       </div>
     );
   }
 
+  const seats = MOCK_PORTFOLIO.seats;
+  const totalValue = seats.reduce((s, x) => s + parseFloat(x.liquidity || "0"), 0);
+
   return (
-    <div className="space-y-6 pb-8">
-      <div className="flex items-center justify-between gap-3">
-        <h1 className="text-xl sm:text-2xl font-black tracking-tight">
-          <span className="text-cyan">▸</span> Portfolio
-        </h1>
-        <DemoBadge />
+    <div className="space-y-5 pb-4">
+      <h1 className="font-display text-xl font-bold">Seats</h1>
+
+      <div className="grid grid-cols-2 gap-3">
+        <div className="card p-4">
+          <div className="text-xs text-muted mb-1">Total seat value</div>
+          <div className="font-display text-xl font-bold tabular-nums">{totalValue.toFixed(2)} ETH</div>
+        </div>
+        <div className="card p-4">
+          <div className="text-xs text-muted mb-1">Seats held</div>
+          <div className="font-display text-xl font-bold">{seats.length}</div>
+        </div>
       </div>
 
-      <section className="pixel-card p-5">
-        <div className="text-[10px] text-muted uppercase tracking-wide mb-1.5">Connected</div>
-        <Address value={MOCK_PORTFOLIO.address} full />
-        <div className="mt-4 text-2xl sm:text-3xl font-bold text-cyan tabular-nums">
-          {MOCK_PORTFOLIO.ethBalance}{" "}
-          <span className="text-sm text-muted font-medium">ETH</span>
+      {seats.length === 0 ? (
+        <div className="card p-8 text-center space-y-3">
+          <p className="text-secondary text-sm">No seats yet. Find a team to sit with.</p>
+          <Link href="/books" className="btn btn-primary inline-flex">
+            Explore books
+          </Link>
         </div>
-      </section>
-
-      <section className="pixel-card p-5">
-        <h2 className="text-xs font-bold tracking-[0.15em] text-cyan mb-3 uppercase">Tokens</h2>
-        <div className="space-y-1">
-          {MOCK_PORTFOLIO.tokens.map((t) => (
-            <div
-              key={t.symbol}
-              className="flex justify-between items-center py-3 border-b border-[rgba(30,58,95,0.4)] last:border-0"
+      ) : (
+        <div className="card divide-y divide-[var(--divider)] overflow-hidden">
+          {seats.map((s) => (
+            <Link
+              key={s.tokenId}
+              href={`/portfolio/seats/${s.tokenId}`}
+              className="flex items-center gap-3 p-4 hover:bg-[var(--control)] min-h-[64px]"
             >
-              <div>
-                <div className="font-bold text-sm">{t.symbol}</div>
-                <Address value={t.address} className="text-[10px]" />
+              <div className="flex-1 min-w-0">
+                <div className="font-display font-bold text-sm truncate">{s.bookName}</div>
+                <div className="text-xs text-muted">Chair #{s.tokenId}</div>
               </div>
-              <div className="text-right font-bold text-mint tabular-nums">{t.balance}</div>
-            </div>
+              <div className="text-right shrink-0">
+                <div className="font-display text-sm font-bold tabular-nums">{s.liquidity} ETH</div>
+                <div className="text-xs text-up">+2.4%</div>
+              </div>
+            </Link>
           ))}
         </div>
-      </section>
+      )}
 
-      <section className="pixel-card p-5">
-        <h2 className="text-xs font-bold tracking-[0.15em] text-gold mb-3 uppercase">Seat NFTs</h2>
-        {MOCK_PORTFOLIO.seats.length === 0 ? (
-          <p className="text-muted text-sm">No seats yet.</p>
-        ) : (
-          <div className="space-y-3">
-            {MOCK_PORTFOLIO.seats.map((s) => (
-              <Link
-                key={s.tokenId}
-                href={`/portfolio/seats/${s.tokenId}`}
-                className="block bg-navy-800/50 pixel-border p-4 hover:border-gold/40 transition-colors"
-              >
-                <div className="flex justify-between gap-3">
-                  <div className="min-w-0">
-                    <div className="font-bold text-sm truncate">{s.bookName}</div>
-                    <div className="text-muted text-xs mt-0.5">Token ID #{s.tokenId}</div>
-                  </div>
-                  <div className="text-right shrink-0">
-                    <div className="text-gold font-bold tabular-nums">{s.liquidity} ETH</div>
-                    <div className="text-mint text-[10px] uppercase mt-0.5">{s.status}</div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
-      </section>
-
-      <p className="text-[10px] text-muted leading-relaxed">
-        DEMO balances. Live data requires wallet + RPC + indexer.
-      </p>
+      <Link href="/books" className="btn btn-secondary btn-full">
+        Find a team to sit with
+      </Link>
     </div>
   );
 }
