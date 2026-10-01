@@ -1,23 +1,27 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { TopBar } from "@/components/TopBar";
+import { BottomTabs } from "@/components/BottomTabs";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const space = Space_Grotesk({
+  variable: "--font-space",
   subsets: ["latin"],
+  weight: ["500", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Pool Pilot — Trust Spine | Non-custodial Uniswap v3 on Robinhood Chain",
+  title: "Pool Pilot — Meme with a team",
   description:
-    "Non-custodial Uniswap v3 launch, NFT liquidity-seat, and swap platform on Robinhood Chain (4663). You own your seats. You sign every transaction.",
+    "Launch a coin, sit 18 seats with friends, trade on one Uniswap v3 pool. Non-custodial — you sign.",
 };
 
 export default function RootLayout({
@@ -28,14 +32,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${space.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Header />
-        <main className="flex-1 w-full max-w-6xl mx-auto px-4 py-5 sm:py-8">
+        <TopBar />
+        <main className="flex-1 w-full max-w-lg mx-auto px-4 pt-4 pb-2 md:max-w-2xl lg:max-w-3xl">
           {children}
         </main>
-        <Footer />
+        <div className="tab-spacer" aria-hidden />
+        <BottomTabs />
       </body>
     </html>
   );
