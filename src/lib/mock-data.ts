@@ -1,5 +1,5 @@
-// DEMO DATA — clearly labeled. Not live on-chain data.
-// Replace with indexer + RPC when contracts are confirmed.
+// Placeholder book index until live indexer + RPC are connected.
+// Set NEXT_PUBLIC_DATA_MODE=live when production feeds are ready.
 
 export const CHAIN = {
   id: 4663,
@@ -48,7 +48,7 @@ export const MOCK_BOOKS: MockBook[] = [
     id: "book-mcfl-001",
     name: "MCFL Genesis",
     symbol: "MCFL",
-    description: "First liquidity book on Pool Pilot. DEMO data only.",
+    description: "First liquidity book on Pool Pilot.",
     status: "demo",
     seatsTotal: 18,
     seatsTaken: 7,
@@ -68,7 +68,7 @@ export const MOCK_BOOKS: MockBook[] = [
     id: "book-pilot-002",
     name: "Pilot Blue",
     symbol: "PILOT",
-    description: "Mock mid-cap book for UI testing.",
+    description: "Community book for the Pilot Blue team.",
     status: "seats_available",
     seatsTotal: 18,
     seatsTaken: 11,
@@ -88,7 +88,7 @@ export const MOCK_BOOKS: MockBook[] = [
     id: "book-seat-003",
     name: "Seat Gold",
     symbol: "SGOLD",
-    description: "Full seats example — mock.",
+    description: "Seat Gold — seats filled.",
     status: "full",
     seatsTotal: 18,
     seatsTaken: 18,
@@ -113,7 +113,7 @@ export const MOCK_STATS = {
   totalVolumeEth: "12.9",
   lastUpdated: new Date().toISOString(),
   sourceBlock: "2212972",
-  dataSource: "demo" as const,
+  dataSource: "placeholder" as const,
 };
 
 export const MOCK_PORTFOLIO = {

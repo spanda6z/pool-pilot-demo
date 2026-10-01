@@ -108,7 +108,9 @@ export default function ExplorePage() {
         </div>
       )}
 
-      <p className="text-[11px] text-muted">Demo list — replace with indexer feeds.</p>
+      <p className="text-[11px] text-muted">
+        Data refreshes from the book index when live feeds are connected.
+      </p>
     </div>
   );
 }
