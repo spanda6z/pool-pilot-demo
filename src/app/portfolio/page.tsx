@@ -11,55 +11,63 @@ export default function PortfolioPage() {
 
   if (!connected) {
     return (
-      <div className="max-w-md mx-auto pixel-card p-8 text-center space-y-4">
-        <h1 className="text-xl font-black">Portfolio</h1>
-        <p className="text-secondary text-sm">Connect wallet to view balances and seats.</p>
+      <div className="max-w-md mx-auto pixel-card p-8 text-center space-y-5">
+        <h1 className="text-xl font-black tracking-tight">Portfolio</h1>
+        <p className="text-secondary text-sm leading-relaxed">
+          Connect your wallet to view balances and seat NFTs.
+        </p>
         <button
           type="button"
           onClick={() => setConnected(true)}
-          className="pixel-btn btn-cyan px-6 py-2.5 text-sm"
+          className="pixel-btn btn-cyan px-8 py-3 text-sm w-full sm:w-auto"
         >
           Connect Wallet
         </button>
-        <DemoBadge />
+        <div className="flex justify-center">
+          <DemoBadge />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-black">
-          <span className="text-cyan">▸</span> PORTFOLIO
+    <div className="space-y-6 pb-8">
+      <div className="flex items-center justify-between gap-3">
+        <h1 className="text-xl sm:text-2xl font-black tracking-tight">
+          <span className="text-cyan">▸</span> Portfolio
         </h1>
         <DemoBadge />
       </div>
 
       <section className="pixel-card p-5">
-        <div className="text-[10px] text-muted mb-1">CONNECTED</div>
+        <div className="text-[10px] text-muted uppercase tracking-wide mb-1.5">Connected</div>
         <Address value={MOCK_PORTFOLIO.address} full />
-        <div className="mt-3 text-2xl font-bold text-cyan">
-          {MOCK_PORTFOLIO.ethBalance} <span className="text-sm text-muted">ETH</span>
+        <div className="mt-4 text-2xl sm:text-3xl font-bold text-cyan tabular-nums">
+          {MOCK_PORTFOLIO.ethBalance}{" "}
+          <span className="text-sm text-muted font-medium">ETH</span>
         </div>
       </section>
 
       <section className="pixel-card p-5">
-        <h2 className="text-sm font-bold tracking-widest text-cyan mb-3">▸ TOKENS</h2>
-        <div className="space-y-2">
+        <h2 className="text-xs font-bold tracking-[0.15em] text-cyan mb-3 uppercase">Tokens</h2>
+        <div className="space-y-1">
           {MOCK_PORTFOLIO.tokens.map((t) => (
-            <div key={t.symbol} className="flex justify-between items-center py-2 border-b border-[var(--pixel-border)]">
+            <div
+              key={t.symbol}
+              className="flex justify-between items-center py-3 border-b border-[rgba(30,58,95,0.4)] last:border-0"
+            >
               <div>
                 <div className="font-bold text-sm">{t.symbol}</div>
                 <Address value={t.address} className="text-[10px]" />
               </div>
-              <div className="text-right font-bold text-mint">{t.balance}</div>
+              <div className="text-right font-bold text-mint tabular-nums">{t.balance}</div>
             </div>
           ))}
         </div>
       </section>
 
       <section className="pixel-card p-5">
-        <h2 className="text-sm font-bold tracking-widest text-gold mb-3">▸ SEAT NFTs</h2>
+        <h2 className="text-xs font-bold tracking-[0.15em] text-gold mb-3 uppercase">Seat NFTs</h2>
         {MOCK_PORTFOLIO.seats.length === 0 ? (
           <p className="text-muted text-sm">No seats yet.</p>
         ) : (
@@ -68,16 +76,16 @@ export default function PortfolioPage() {
               <Link
                 key={s.tokenId}
                 href={`/portfolio/seats/${s.tokenId}`}
-                className="block bg-navy-800 pixel-border p-4 hover:border-gold transition-colors"
+                className="block bg-navy-800/50 pixel-border p-4 hover:border-gold/40 transition-colors"
               >
-                <div className="flex justify-between">
-                  <div>
-                    <div className="font-bold text-sm">{s.bookName}</div>
-                    <div className="text-muted text-xs">Token ID #{s.tokenId}</div>
+                <div className="flex justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="font-bold text-sm truncate">{s.bookName}</div>
+                    <div className="text-muted text-xs mt-0.5">Token ID #{s.tokenId}</div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-gold font-bold">{s.liquidity} ETH</div>
-                    <div className="text-mint text-[10px] uppercase">{s.status}</div>
+                  <div className="text-right shrink-0">
+                    <div className="text-gold font-bold tabular-nums">{s.liquidity} ETH</div>
+                    <div className="text-mint text-[10px] uppercase mt-0.5">{s.status}</div>
                   </div>
                 </div>
               </Link>
@@ -86,7 +94,7 @@ export default function PortfolioPage() {
         )}
       </section>
 
-      <p className="text-[10px] text-muted">
+      <p className="text-[10px] text-muted leading-relaxed">
         DEMO balances. Live data requires wallet + RPC + indexer.
       </p>
     </div>
