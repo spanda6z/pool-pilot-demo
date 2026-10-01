@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { TopBar } from "@/components/TopBar";
 import { BottomTabs } from "@/components/BottomTabs";
+import { SiteFooter } from "@/components/SiteFooter";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -39,6 +40,7 @@ export default function RootLayout({
         <main className="flex-1 w-full max-w-lg mx-auto px-4 pt-4 pb-2 md:max-w-2xl lg:max-w-3xl">
           {children}
         </main>
+        <SiteFooter />
         <div className="tab-spacer" aria-hidden />
         <BottomTabs />
       </body>
