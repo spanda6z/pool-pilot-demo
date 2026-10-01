@@ -1,50 +1,54 @@
 import Link from "next/link";
-import { DemoBadge } from "@/components/DemoBadge";
-
-const STEPS = [
-  "Token & book identity",
-  "Seat configuration",
-  "Pool configuration",
-  "Fees & economics",
-  "Risk & permissions review",
-  "Deployment transaction review",
-  "Wallet signature",
-  "Deployment pending",
-  "Live book URL + verify",
-];
 
 export default function LaunchPage() {
   return (
-    <div className="space-y-6 max-w-xl mx-auto pb-8">
-      <div className="flex items-center justify-between gap-3">
-        <h1 className="text-xl sm:text-2xl font-black tracking-tight">
-          <span className="text-gold">▸</span> Launch
-        </h1>
-        <DemoBadge />
+    <div className="space-y-6 pb-4 max-w-md mx-auto">
+      <div>
+        <h1 className="font-display text-xl font-bold mb-1">Launch</h1>
+        <p className="text-secondary text-sm leading-relaxed">
+          Create a token and thin Uniswap v3 pool. You keep the token. Friends sit up to 18 chairs.
+        </p>
       </div>
 
-      <section className="pixel-card p-5 sm:p-6">
-        <p className="text-secondary text-sm mb-6 leading-relaxed">
-          Create a new liquidity book. You configure, you review, you sign.
-          Pool Pilot never holds keys or funds.
-        </p>
+      <div className="flex gap-2" aria-label="Launch progress">
+        {[1, 2, 3].map((n) => (
+          <div
+            key={n}
+            className={`h-1.5 flex-1 rounded-full ${n === 1 ? "bg-[var(--lime)]" : "bg-[var(--control)]"}`}
+          />
+        ))}
+      </div>
+      <p className="text-xs text-muted">Step 1 of 3 · Configure</p>
 
-        <ol className="space-y-2.5 text-xs mb-8">
-          {STEPS.map((s, i) => (
-            <li key={s} className="flex gap-3 items-start">
-              <span className="text-gold font-bold w-5 tabular-nums shrink-0">{i + 1}.</span>
-              <span className="text-secondary leading-relaxed">{s}</span>
-            </li>
-          ))}
-        </ol>
-
-        <Link
-          href="/launch/create"
-          className="pixel-btn btn-gold w-full py-3.5 text-sm text-center"
-        >
-          Start Launch
-        </Link>
+      <section className="card p-5 space-y-4">
+        <div>
+          <label className="text-xs text-muted block mb-1.5">Ticker</label>
+          <input placeholder="e.g. MCFL" maxLength={10} />
+        </div>
+        <div>
+          <label className="text-xs text-muted block mb-1.5">Min bid per seat (ETH)</label>
+          <input type="number" placeholder="0.05" step="0.01" min="0.01" />
+          <p className="text-[11px] text-muted mt-1.5">Typical range maps to about $10–$10,000.</p>
+        </div>
       </section>
+
+      <div className="card p-4 text-xs text-secondary space-y-1">
+        <div className="flex justify-between"><span>Supply</span><span className="font-display">1,000,000,000</span></div>
+        <div className="flex justify-between"><span>Seats</span><span className="font-display">18</span></div>
+        <div className="flex justify-between"><span>You sign</span><span>Every step</span></div>
+      </div>
+
+      <Link href="/launch/create" className="btn btn-primary btn-full">
+        Continue
+      </Link>
+
+      <p className="text-[11px] text-muted text-center leading-relaxed">
+        No gas on Robinhood Chain?{" "}
+        <Link href="/about" className="text-lime">
+          How to arrive
+        </Link>
+        . Demo flow only — no live mint.
+      </p>
     </div>
   );
 }
