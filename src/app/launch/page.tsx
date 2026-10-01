@@ -44,10 +44,8 @@ export default function LaunchPage() {
 
       <p className="text-[11px] text-muted text-center leading-relaxed">
         No gas on Robinhood Chain?{" "}
-        <Link href="/about" className="text-lime">
-          How to arrive
-        </Link>
-        . Demo flow only — no live mint.
+        <Link href="/about" className="text-lime">How to arrive</Link>
+        . You will review and sign in your wallet.
       </p>
     </div>
   );

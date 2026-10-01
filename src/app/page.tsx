@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SeatRing } from "@/components/SeatRing";
 import { MOCK_BOOKS, MOCK_STATS } from "@/lib/mock-data";
+import { IS_PLACEHOLDER, SITE } from "@/lib/config";
 
 export default function HomePage() {
   const featured = MOCK_BOOKS[0];
@@ -8,9 +9,11 @@ export default function HomePage() {
 
   return (
     <div className="space-y-8 pb-4">
-      <div className="flex items-center gap-2">
-        <span className="pill pill-live">Live on Robinhood Chain</span>
-        <span className="pill pill-demo">Demo data</span>
+      <div className="flex items-center gap-2 flex-wrap">
+        <span className="pill pill-live">Live on {SITE.chainName}</span>
+        {IS_PLACEHOLDER && (
+          <span className="pill pill-muted">Preview data</span>
+        )}
       </div>
 
       <section>
@@ -35,9 +38,14 @@ export default function HomePage() {
 
       {featured && (
         <section className="card p-5 flex flex-col sm:flex-row items-center gap-5">
-          <SeatRing taken={taken} total={18} size={128} label={`${taken} of 18 seats on ${featured.symbol}`} />
+          <SeatRing
+            taken={taken}
+            total={18}
+            size={128}
+            label={`${taken} of 18 seats on ${featured.symbol}`}
+          />
           <div className="flex-1 text-center sm:text-left w-full">
-            <div className="text-xs text-muted uppercase tracking-wide mb-1">Featured book</div>
+            <div className="text-xs text-muted uppercase tracking-wide mb-1">Featured</div>
             <div className="font-display text-lg font-bold">${featured.symbol}</div>
             <p className="text-secondary text-sm mt-1">{featured.name}</p>
             <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-3 text-sm">
@@ -100,9 +108,7 @@ export default function HomePage() {
           <h2 className="font-display text-sm font-bold text-muted uppercase tracking-wide">
             Trending now
           </h2>
-          <Link href="/books" className="text-xs text-lime font-medium">
-            See all
-          </Link>
+          <Link href="/books" className="text-xs text-lime font-medium">See all</Link>
         </div>
         <div className="card divide-y divide-[var(--divider)] overflow-hidden">
           {MOCK_BOOKS.slice(0, 5).map((b) => {
@@ -132,9 +138,9 @@ export default function HomePage() {
 
       <p className="text-[11px] text-muted text-center leading-relaxed px-2">
         Non-custodial — you sign; Pool Pilot never holds funds.{" "}
-        <Link href="/security" className="text-secondary underline-offset-2 hover:underline">
-          Security
-        </Link>
+        <Link href="/security" className="text-secondary underline-offset-2 hover:underline">Security</Link>
+        {" · "}
+        <Link href="/about" className="text-secondary underline-offset-2 hover:underline">About</Link>
       </p>
     </div>
   );
