@@ -30,73 +30,76 @@ export default function SwapPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto space-y-6">
+    <div className="max-w-md mx-auto space-y-6 pb-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-black">
-          <span className="text-eth">▸</span> SWAP
+        <h1 className="text-xl sm:text-2xl font-black tracking-tight">
+          <span className="text-eth">▸</span> Swap
         </h1>
         <DemoBadge />
       </div>
 
-      <section className="pixel-card p-5 space-y-4">
+      <section className="pixel-card p-5 space-y-5">
         <div>
-          <label className="text-[10px] text-muted tracking-wider">YOU PAY</label>
-          <div className="flex gap-2 mt-1">
+          <label className="text-[10px] text-muted tracking-wider uppercase">You pay</label>
+          <div className="flex gap-2 mt-1.5">
             <input
               type="number"
               value={amountIn}
               onChange={(e) => setAmountIn(e.target.value)}
-              className="flex-1 bg-navy-800 border-2 border-[var(--pixel-border)] px-3 py-3 text-lg font-bold focus:outline-none focus:border-cyan"
+              className="flex-1 bg-navy-800/80 border border-[rgba(30,58,95,0.8)] px-4 py-3.5 text-lg font-bold tabular-nums focus:outline-none min-w-0"
             />
-            <div className="bg-navy-700 border-2 border-[var(--pixel-border)] px-4 py-3 font-bold text-cyan">
+            <div className="bg-navy-700/80 border border-[rgba(30,58,95,0.8)] px-4 py-3.5 font-bold text-cyan text-sm flex items-center rounded-lg shrink-0">
               ETH
             </div>
           </div>
         </div>
 
-        <div className="text-center text-muted text-xs">↓</div>
+        <div className="flex justify-center">
+          <div className="w-8 h-8 rounded-full bg-navy-800 border border-[rgba(30,58,95,0.8)] flex items-center justify-center text-muted text-sm">
+            ↓
+          </div>
+        </div>
 
         <div>
-          <label className="text-[10px] text-muted tracking-wider">YOU RECEIVE (est.)</label>
-          <div className="flex gap-2 mt-1">
-            <div className="flex-1 bg-navy-800 border-2 border-[var(--pixel-border)] px-3 py-3 text-lg font-bold text-mint">
+          <label className="text-[10px] text-muted tracking-wider uppercase">You receive (est.)</label>
+          <div className="flex gap-2 mt-1.5">
+            <div className="flex-1 bg-navy-800/80 border border-[rgba(30,58,95,0.8)] px-4 py-3.5 text-lg font-bold text-mint tabular-nums min-w-0">
               {quoteOut}
             </div>
-            <div className="bg-navy-700 border-2 border-[var(--pixel-border)] px-4 py-3 font-bold text-gold">
+            <div className="bg-navy-700/80 border border-[rgba(30,58,95,0.8)] px-4 py-3.5 font-bold text-gold text-sm flex items-center rounded-lg shrink-0">
               MCFL
             </div>
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-2 text-xs">
-          <div className="bg-navy-800 p-2 pixel-border">
-            <span className="text-muted">Price impact</span>
-            <div className="text-secondary">~0.12%</div>
-          </div>
-          <div className="bg-navy-800 p-2 pixel-border">
-            <span className="text-muted">Slippage</span>
-            <div className="flex items-center gap-1">
-              <input
-                type="number"
-                value={slippage}
-                onChange={(e) => setSlippage(e.target.value)}
-                className="w-12 bg-transparent border-b border-muted text-secondary focus:outline-none"
-              />
-              %
+          {[
+            { label: "Price impact", value: "~0.12%" },
+            { label: "Slippage", value: null },
+            { label: "Pool fee", value: "0.30%" },
+            { label: "Protocol fee", value: "0.05%" },
+          ].map((row) => (
+            <div key={row.label} className="bg-navy-800/50 p-2.5 pixel-border">
+              <span className="text-muted text-[10px] block">{row.label}</span>
+              {row.value ? (
+                <div className="text-secondary mt-0.5">{row.value}</div>
+              ) : (
+                <div className="flex items-center gap-1 mt-0.5">
+                  <input
+                    type="number"
+                    value={slippage}
+                    onChange={(e) => setSlippage(e.target.value)}
+                    className="w-12 bg-transparent border-b border-muted text-secondary focus:outline-none"
+                  />
+                  %
+                </div>
+              )}
             </div>
-          </div>
-          <div className="bg-navy-800 p-2 pixel-border">
-            <span className="text-muted">Pool fee</span>
-            <div className="text-secondary">0.30%</div>
-          </div>
-          <div className="bg-navy-800 p-2 pixel-border">
-            <span className="text-muted">Protocol fee</span>
-            <div className="text-secondary">0.05%</div>
-          </div>
+          ))}
         </div>
 
-        <div className="text-[10px] text-muted space-y-1">
-          <div className="flex justify-between">
+        <div className="text-[10px] text-muted space-y-1.5 pt-1">
+          <div className="flex justify-between items-center gap-2">
             <span>Router</span>
             <Address value={CONTRACTS.swapRouter} />
           </div>
@@ -106,7 +109,7 @@ export default function SwapPage() {
           </div>
         </div>
 
-        <div className="bg-navy-800 pixel-border p-2 text-[10px] text-coral">
+        <div className="bg-[rgba(248,113,113,0.08)] border border-coral/25 rounded-lg p-3 text-[10px] text-coral leading-relaxed">
           ⚠ Irreversible once confirmed. Demo mode — no real funds move.
         </div>
 
@@ -114,7 +117,7 @@ export default function SwapPage() {
           type="button"
           onClick={handleSwap}
           disabled={state !== "idle" && state !== "completed"}
-          className="pixel-btn btn-eth w-full py-3 text-sm"
+          className="pixel-btn btn-eth w-full py-3.5 text-sm"
         >
           {!connected && "Connect Wallet"}
           {connected && state === "idle" && "Sign & Swap"}
