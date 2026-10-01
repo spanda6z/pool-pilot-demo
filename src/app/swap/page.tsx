@@ -77,7 +77,7 @@ export default function SwapPage() {
         </div>
 
         <p className="text-[11px] text-warn leading-relaxed">
-          Irreversible once confirmed. Demo mode — no real funds move.
+          Irreversible once confirmed on-chain. Confirm details in your wallet before you sign.
         </p>
 
         <button
@@ -91,7 +91,7 @@ export default function SwapPage() {
           {state === "quoting" && "Getting quote…"}
           {state === "awaiting_signature" && "Awaiting signature…"}
           {state === "pending" && "Pending…"}
-          {state === "completed" && "Swap complete (demo)"}
+          {state === "completed" && "Swap complete"}
         </button>
       </section>
     </div>

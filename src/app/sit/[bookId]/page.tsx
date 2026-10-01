@@ -69,12 +69,12 @@ export default function SitPage() {
         </div>
 
         <p className="text-[11px] text-warn text-left w-full leading-relaxed">
-          Irreversible once confirmed. Impermanent loss possible. Demo — no real funds move.
+          Irreversible once confirmed. Impermanent loss possible. Confirm details in your wallet before you sign.
         </p>
 
         {state === "completed" ? (
           <div className="w-full space-y-3">
-            <p className="text-up font-display font-bold">Seat acquired (demo)</p>
+            <p className="text-up font-display font-bold">Seat acquired</p>
             <Link href="/portfolio" className="btn btn-primary btn-full">
               View seats
             </Link>
