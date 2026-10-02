@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
-import { SeatRing } from "@/components/SeatRing";
-import { CopyButton } from "@/components/CopyButton";
+import { ShareCard } from "@/components/ShareCard";
 
 function DeployInner() {
   const params = useSearchParams();
@@ -38,34 +37,23 @@ function DeployInner() {
         </div>
         <p className="text-xs text-muted">Step 3 of 3 · Invite</p>
 
-        <section className="card p-6 flex flex-col items-center text-center gap-4">
-          <SeatRing taken={1} total={18} size={120} label="1 of 18 seats" />
-          <div>
-            <h1 className="font-display text-xl font-bold">${ticker} is live</h1>
-            <p className="text-secondary text-sm mt-1">
-              Chair 1 is yours. Invite the team to sit the rest.
-            </p>
-          </div>
-          <div className="w-full space-y-2 text-left">
-            <div className="text-[10px] text-muted uppercase tracking-wide">
-              Invite link
-            </div>
-            <div className="flex gap-2">
-              <code className="control flex-1 px-3 py-2.5 text-xs break-all min-h-[44px] flex items-center">
-                {shareUrl}
-              </code>
-              <CopyButton text={shareUrl} />
-            </div>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-2 w-full">
-            <Link href={invitePath} className="btn btn-primary btn-full">
-              Open the book
-            </Link>
-            <Link href="/portfolio" className="btn btn-secondary btn-full">
-              View seats
-            </Link>
-          </div>
-        </section>
+        <div className="text-center space-y-1">
+          <h1 className="font-display text-xl font-bold">${ticker} is live</h1>
+          <p className="text-secondary text-sm">
+            Chair 1 is yours. Invite the team to sit the rest.
+          </p>
+        </div>
+
+        <ShareCard symbol={ticker} seatsTaken={1} seatsTotal={18} shareUrl={shareUrl} />
+
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Link href={invitePath} className="btn btn-primary btn-full">
+            Open the book
+          </Link>
+          <Link href="/portfolio" className="btn btn-secondary btn-full">
+            View seats
+          </Link>
+        </div>
       </div>
     );
   }
