@@ -1,18 +1,17 @@
 import Link from "next/link";
 import { SeatRing } from "@/components/SeatRing";
-import { MOCK_BOOKS, MOCK_STATS } from "@/lib/mock-data";
+import { TrendingList } from "@/components/TrendingList";
+import { PoolPilotLaunches } from "@/components/PoolPilotLaunches";
 import { IS_PLACEHOLDER, SITE } from "@/lib/config";
+import { MCFL } from "@/lib/tokens";
 
 export default function HomePage() {
-  const featured = MOCK_BOOKS[0];
-  const taken = featured ? Math.min(featured.seatsTaken, 18) : 0;
-
   return (
     <div className="space-y-8 pb-4">
       <div className="flex items-center gap-2 flex-wrap">
         <span className="pill pill-live">Live on {SITE.chainName}</span>
         {IS_PLACEHOLDER && (
-          <span className="pill pill-muted">Preview data</span>
+          <span className="pill pill-muted">Trending is live on-chain</span>
         )}
       </div>
 
@@ -36,49 +35,44 @@ export default function HomePage() {
         </div>
       </section>
 
-      {featured && (
-        <section className="card p-5 flex flex-col sm:flex-row items-center gap-5">
-          <SeatRing
-            taken={taken}
-            total={18}
-            size={128}
-            label={`${taken} of 18 seats on ${featured.symbol}`}
-          />
-          <div className="flex-1 text-center sm:text-left w-full">
-            <div className="text-xs text-muted uppercase tracking-wide mb-1">Featured</div>
-            <div className="font-display text-lg font-bold">${featured.symbol}</div>
-            <p className="text-secondary text-sm mt-1">{featured.name}</p>
-            <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-3 text-sm">
-              <div>
-                <span className="text-muted text-xs block">Seats</span>
-                <span className="font-display font-bold text-lime">{taken}/18</span>
-              </div>
-              <div>
-                <span className="text-muted text-xs block">24h vol</span>
-                <span className="font-display font-bold">{featured.volume24h} ETH</span>
-              </div>
-              <div>
-                <span className="text-muted text-xs block">Liquidity</span>
-                <span className="font-display font-bold">{featured.liquidityEth} ETH</span>
-              </div>
-            </div>
-            <Link href={`/books/${featured.id}`} className="btn btn-ghost text-sm mt-4 min-h-[40px]">
+      <section className="card p-5 flex flex-col sm:flex-row items-center gap-5">
+        <SeatRing taken={7} total={18} size={128} label="MCFL seats" />
+        <div className="flex-1 text-center sm:text-left w-full">
+          <div className="text-xs text-muted uppercase tracking-wide mb-1">
+            On Pool Pilot
+          </div>
+          <div className="font-display text-lg font-bold">${MCFL.symbol}</div>
+          <p className="text-secondary text-sm mt-1">{MCFL.name}</p>
+          <p className="text-[11px] text-muted font-mono mt-1 break-all">
+            {MCFL.address}
+          </p>
+          <div className="flex flex-wrap justify-center sm:justify-start gap-2 mt-4">
+            <a
+              href={MCFL.explorer}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-ghost text-sm min-h-[40px]"
+            >
+              Explorer
+            </a>
+            <a
+              href={`https://dexscreener.com/robinhood/${MCFL.address}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary text-sm min-h-[40px]"
+            >
+              DexScreener
+            </a>
+            <Link href="/books/book-mcfl-001" className="btn btn-primary text-sm min-h-[40px]">
               Open book
             </Link>
           </div>
-        </section>
-      )}
-
-      <section className="grid grid-cols-2 gap-3">
-        <div className="card p-4">
-          <div className="text-xs text-muted mb-1">24h volume</div>
-          <div className="font-display text-xl font-bold">{MOCK_STATS.totalVolumeEth} ETH</div>
-        </div>
-        <div className="card p-4">
-          <div className="text-xs text-muted mb-1">Coins launched</div>
-          <div className="font-display text-xl font-bold">{MOCK_STATS.totalBooks}</div>
         </div>
       </section>
+
+      <PoolPilotLaunches />
+
+      <TrendingList title="Trending on Robinhood Chain" limit={10} />
 
       <section>
         <h2 className="font-display text-sm font-bold text-muted uppercase tracking-wide mb-3">
@@ -103,44 +97,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section>
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="font-display text-sm font-bold text-muted uppercase tracking-wide">
-            Trending now
-          </h2>
-          <Link href="/books" className="text-xs text-lime font-medium">See all</Link>
-        </div>
-        <div className="card divide-y divide-[var(--divider)] overflow-hidden">
-          {MOCK_BOOKS.slice(0, 5).map((b) => {
-            const seats = Math.min(b.seatsTaken, 18);
-            return (
-              <Link
-                key={b.id}
-                href={`/books/${b.id}`}
-                className="flex items-center gap-3 p-3.5 hover:bg-[var(--control)] transition-colors min-h-[56px]"
-              >
-                <span className="w-9 h-9 rounded-full bg-[var(--control)] border border-[var(--border)] flex items-center justify-center font-display text-xs font-bold shrink-0">
-                  {b.symbol.slice(0, 2)}
-                </span>
-                <div className="flex-1 min-w-0">
-                  <div className="font-display font-bold text-sm">${b.symbol}</div>
-                  <div className="text-xs text-muted truncate">{b.name}</div>
-                </div>
-                <div className="text-right shrink-0">
-                  <div className="font-display text-sm font-bold tabular-nums">{b.volume24h} ETH</div>
-                  <div className="text-xs text-muted">{seats}/18 seats</div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-
       <p className="text-[11px] text-muted text-center leading-relaxed px-2">
         Non-custodial — you sign; Pool Pilot never holds funds.{" "}
-        <Link href="/security" className="text-secondary underline-offset-2 hover:underline">Security</Link>
+        <Link href="/security" className="text-secondary underline-offset-2 hover:underline">
+          Security
+        </Link>
         {" · "}
-        <Link href="/about" className="text-secondary underline-offset-2 hover:underline">About</Link>
+        <Link href="/about" className="text-secondary underline-offset-2 hover:underline">
+          About
+        </Link>
       </p>
     </div>
   );
