@@ -24,6 +24,7 @@ const MCFL_HOLDINGS = "[TODO: amount or “some”]";
 const MCFL_RECEIVES_FEES = "[TODO: yes or no]";
 const SIGNED_MESSAGE = "[TODO: exact signed message text]";
 const SIGNATURE = "[TODO: 0x signature]";
+const MCFL_TOKEN = "0x21A91215fbFc4fc002B07cc87698A6fC01Aed523";
 
 export default function AboutPage() {
   const jsonLd = {
@@ -136,6 +137,29 @@ export default function AboutPage() {
           Coins launched here can lose all their value. Use only money you can
           afford to lose. This is a tool, not financial advice.
         </p>
+      </section>
+
+      <section className="card p-5 space-y-2" aria-labelledby="mcfl-token">
+        <h2 id="mcfl-token" className="font-display text-base font-bold">
+          MCFL token
+        </h2>
+        <p className="text-xs text-secondary leading-relaxed">
+          McFlamingo (MCFL) is an ERC-20 on Robinhood Chain. Decimals: 18.
+        </p>
+        <div className="flex gap-2 items-stretch">
+          <code className="control flex-1 px-3 py-2.5 text-xs font-mono break-all flex items-center min-h-[44px]">
+            {MCFL_TOKEN}
+          </code>
+          <CopyButton text={MCFL_TOKEN} label="Copy" />
+        </div>
+        <a
+          href={`https://robinhoodchain.blockscout.com/token/${MCFL_TOKEN}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-lime text-sm"
+        >
+          View on explorer
+        </a>
       </section>
 
       <section className="card p-5 space-y-3" aria-labelledby="wallet">
