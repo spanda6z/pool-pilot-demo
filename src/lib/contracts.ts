@@ -14,7 +14,8 @@ export const CONTRACT_ADDRESSES = {
   swapRouter:
     (process.env.NEXT_PUBLIC_SWAP_ROUTER as `0x${string}`) || undefined,
   mcflToken:
-    (process.env.NEXT_PUBLIC_MCFL_TOKEN as `0x${string}`) || undefined,
+    (process.env.NEXT_PUBLIC_MCFL_TOKEN as `0x${string}`) ||
+    "0x21A91215fbFc4fc002B07cc87698A6fC01Aed523",
 } as const;
 
 /** Minimal placeholder ABI fragments — replace with verified ABIs */
