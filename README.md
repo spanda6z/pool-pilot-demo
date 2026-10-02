@@ -1,65 +1,57 @@
-# Pool Pilot (DEMO)
+# Pool Pilot
 
-Non-custodial Uniswap v3 launch · NFT liquidity-seat · swap UI on Robinhood Chain (4663).
+Non-custodial Uniswap v3 launch, 18-seat NFT liquidity, and swap UI for Robinhood Chain (4663).
 
-**This is a mock / demo build.** All on-chain data is fake and clearly labeled DEMO. No real contracts are called. No private keys are stored. No funds can be moved.
+**You sign every transaction. Pool Pilot never holds funds.**
 
-## Quick start
+## Stack
+
+- Next.js App Router · TypeScript · Tailwind CSS v4
+- Design: dark `#141012`, lime `#c6f432`, Space Grotesk + Inter
+- Mobile-first bottom tabs
+
+## Develop
 
 ```bash
-cd pool-pilot
 npm install
 npm run dev
 ```
 
-Open http://localhost:3000
+## Data mode
 
-## Routes implemented
+| `NEXT_PUBLIC_DATA_MODE` | Behavior |
+|-------------------------|----------|
+| `placeholder` (default) | UI with sample books; quiet “Preview data” chip |
+| `live` | Hide preview chip; wire indexer/RPC (not in this scaffold yet) |
 
-| Route | Status |
-|-------|--------|
-| `/` | Trust Spine home |
-| `/books` | Browse books |
-| `/books/[bookId]` | Book detail |
-| `/sit/[bookId]` | Take a seat (mock tx flow) |
-| `/swap` | Swap (mock quote + tx) |
-| `/portfolio` | Portfolio + seats |
-| `/portfolio/seats/[tokenId]` | Seat detail |
-| `/verify` | Contract registry |
-| `/verify/[bookId]` | Book proof |
-| `/launch` → create → review → deploy | Creator wizard (mock) |
-| `/about` `/security` `/terms` `/privacy` | Static |
+See `.env.example`.
 
-## Design
+## Routes
 
-- Dark navy pixel-art command center
-- Cyan = liquidity / live reads
-- Gold = seats
-- ETH blue = swaps
-- Mint = verified
-- Coral = warnings / DEMO
+| Path | Screen |
+|------|--------|
+| `/` | Home |
+| `/books` | Explore |
+| `/books/[id]` | Coin |
+| `/sit/[id]` | Sit a chair |
+| `/swap` | Swap |
+| `/portfolio` | Seats |
+| `/launch` → create → review → deploy | Launch flow |
+| `/about` | Trust / built by |
+| `/security` | Security model |
+| `/verify-wallet` | Wallet verification template |
 
-## Non-custodial rules (enforced in UI)
+## Production checklist
 
-1. Never custody keys or funds
-2. Frontend only constructs calldata (mock here)
-3. Every write shows target, amounts, fees, risk
-4. DEMO badge whenever data is not live
-5. Full addresses + explorer links
+1. Grant access to the live contract repo and ABIs
+2. Connect wagmi + chain 4663
+3. Fill About TODOs (name, wallet, signature, fees)
+4. Replace logo mark `P` with brand asset
+5. Set `NEXT_PUBLIC_DATA_MODE=live` when feeds are real
+6. Counsel-approved terms and privacy
 
-## Next steps for real product
+## Non-custodial rules
 
-1. Confirm smart-contract addresses & ABIs
-2. Add wagmi + viem + real RPC
-3. Wire indexer (Goldsky/Envio/Subsquid)
-4. Replace mock data with API + RPC reads
-5. Transaction simulation before signature
-6. Production security review
-
-## Stack
-
-- Next.js App Router
-- TypeScript
-- Tailwind CSS v4
-- Pixel design system in globals.css
-- Mock data in src/lib/mock-data.ts
+- No custody of keys, seeds, or funds
+- Frontend builds calldata only
+- User wallet signs and broadcasts
