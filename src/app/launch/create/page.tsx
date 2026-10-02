@@ -2,76 +2,85 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { DemoBadge } from "@/components/DemoBadge";
 
 export default function LaunchCreatePage() {
-  const [name, setName] = useState("");
-  const [symbol, setSymbol] = useState("");
-  const [seats, setSeats] = useState("50");
-  const [price, setPrice] = useState("0.1");
+  const [ticker, setTicker] = useState("");
+  const [minBid, setMinBid] = useState("0.05");
+  const error =
+    ticker.length > 0 && (ticker.length < 2 || ticker.length > 10)
+      ? "Ticker must be 2–10 characters"
+      : null;
 
   return (
-    <div className="max-w-lg mx-auto space-y-6">
-      <div className="flex items-center gap-3">
-        <Link href="/launch" className="text-muted text-xs hover:text-cyan">
-          ← Launch
-        </Link>
-        <DemoBadge />
+    <div className="max-w-md mx-auto space-y-6 pb-4">
+      <Link href="/launch" className="text-muted text-sm hover:text-secondary min-h-[44px] inline-flex items-center">
+        ← Launch
+      </Link>
+
+      <div className="flex gap-2" aria-label="Launch progress">
+        {[1, 2, 3].map((n) => (
+          <div
+            key={n}
+            className={`h-1.5 flex-1 rounded-full ${n <= 1 ? "bg-[var(--lime)]" : "bg-[var(--control)]"}`}
+          />
+        ))}
       </div>
+      <p className="text-xs text-muted">Step 1 of 3 · Configure</p>
 
-      <h1 className="text-xl font-black">Step 1–4 · Configure</h1>
-
-      <section className="pixel-card p-5 space-y-4">
+      <section className="card p-5 space-y-4">
         <div>
-          <label className="text-[10px] text-muted tracking-wider">TOKEN NAME</label>
+          <label htmlFor="ticker" className="text-xs text-muted block mb-1.5">
+            Ticker
+          </label>
           <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="My Token"
-            className="w-full mt-1 bg-navy-800 border-2 border-[var(--pixel-border)] px-3 py-2 text-sm focus:outline-none focus:border-cyan"
+            id="ticker"
+            value={ticker}
+            onChange={(e) => setTicker(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""))}
+            placeholder="e.g. MCFL"
+            maxLength={10}
+            autoComplete="off"
           />
+          {error && <p className="text-down text-xs mt-1.5">{error}</p>}
         </div>
         <div>
-          <label className="text-[10px] text-muted tracking-wider">SYMBOL</label>
+          <label htmlFor="bid" className="text-xs text-muted block mb-1.5">
+            Min bid per seat (ETH)
+          </label>
           <input
-            value={symbol}
-            onChange={(e) => setSymbol(e.target.value.toUpperCase())}
-            placeholder="TKN"
-            className="w-full mt-1 bg-navy-800 border-2 border-[var(--pixel-border)] px-3 py-2 text-sm focus:outline-none focus:border-cyan"
-          />
-        </div>
-        <div>
-          <label className="text-[10px] text-muted tracking-wider">NUMBER OF SEATS</label>
-          <input
+            id="bid"
             type="number"
-            value={seats}
-            onChange={(e) => setSeats(e.target.value)}
-            className="w-full mt-1 bg-navy-800 border-2 border-[var(--pixel-border)] px-3 py-2 text-sm focus:outline-none focus:border-cyan"
-          />
-        </div>
-        <div>
-          <label className="text-[10px] text-muted tracking-wider">SEAT PRICE (ETH)</label>
-          <input
-            type="number"
+            value={minBid}
+            onChange={(e) => setMinBid(e.target.value)}
             step="0.01"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            className="w-full mt-1 bg-navy-800 border-2 border-[var(--pixel-border)] px-3 py-2 text-sm focus:outline-none focus:border-cyan"
+            min="0.01"
           />
-        </div>
-
-        <div className="flex gap-3 pt-2">
-          <button type="button" className="pixel-btn btn-outline flex-1 py-2 text-xs">
-            Save Draft
-          </button>
-          <Link
-            href="/launch/review"
-            className="pixel-btn btn-gold flex-1 py-2 text-xs text-center"
-          >
-            Continue →
-          </Link>
+          <p className="text-[11px] text-muted mt-1.5">
+            Typical range maps to about $10–$10,000.
+          </p>
         </div>
       </section>
+
+      <div className="card p-4 text-xs text-secondary space-y-1">
+        <div className="flex justify-between">
+          <span>Supply</span>
+          <span className="font-display">1,000,000,000</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Seats</span>
+          <span className="font-display">18</span>
+        </div>
+        <div className="flex justify-between">
+          <span>You sign</span>
+          <span>Every step</span>
+        </div>
+      </div>
+
+      <Link
+        href={`/launch/review?ticker=${encodeURIComponent(ticker || "TICKER")}&bid=${encodeURIComponent(minBid)}`}
+        className={`btn btn-primary btn-full ${!ticker || error ? "pointer-events-none opacity-40" : ""}`}
+      >
+        Continue to review
+      </Link>
     </div>
   );
 }
