@@ -1,12 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import { DesktopNav } from "@/components/DesktopNav";
+import { ConnectButton } from "@/components/ConnectButton";
 
 export function TopBar() {
-  const [connected, setConnected] = useState(false);
-
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-sm">
       <div className="max-w-lg md:max-w-3xl lg:max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-3">
@@ -32,15 +30,7 @@ export function TopBar() {
           >
             Security
           </Link>
-          <button
-            type="button"
-            onClick={() => setConnected(!connected)}
-            className={`btn text-sm min-h-[40px] px-4 ${
-              connected ? "btn-ghost" : "btn-primary"
-            }`}
-          >
-            {connected ? "0xAb…Ef01" : "Connect"}
-          </button>
+          <ConnectButton />
         </div>
       </div>
     </header>

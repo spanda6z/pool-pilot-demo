@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import { Providers } from "@/components/Providers";
 import { TopBar } from "@/components/TopBar";
 import { BottomTabs } from "@/components/BottomTabs";
 import { SiteFooter } from "@/components/SiteFooter";
+import { NetworkBanner } from "@/components/NetworkBanner";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -36,13 +38,16 @@ export default function RootLayout({
       className={`${inter.variable} ${space.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <TopBar />
-        <main className="flex-1 w-full max-w-lg mx-auto px-4 pt-4 pb-2 md:max-w-3xl lg:max-w-5xl">
-          {children}
-        </main>
-        <SiteFooter />
-        <div className="tab-spacer" aria-hidden />
-        <BottomTabs />
+        <Providers>
+          <TopBar />
+          <NetworkBanner />
+          <main className="flex-1 w-full max-w-lg mx-auto px-4 pt-4 pb-2 md:max-w-3xl lg:max-w-5xl">
+            {children}
+          </main>
+          <SiteFooter />
+          <div className="tab-spacer" aria-hidden />
+          <BottomTabs />
+        </Providers>
       </body>
     </html>
   );
