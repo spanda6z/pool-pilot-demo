@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { SeatRing } from "@/components/SeatRing";
 import { Address } from "@/components/Address";
 import { MOCK_BOOKS, explorerAddress } from "@/lib/mock-data";
+import { CoinShare } from "@/components/CoinShare";
 
 export default async function CoinPage({
   params,
@@ -29,7 +30,6 @@ export default async function CoinPage({
           <div className="flex items-center gap-2 flex-wrap">
             <h1 className="font-display text-2xl font-bold">${book.symbol}</h1>
             <span className="pill pill-live">Live</span>
-            <span className="pill pill-demo">Demo</span>
           </div>
           <p className="text-secondary text-sm mt-1">{book.name}</p>
         </div>
@@ -59,9 +59,9 @@ export default async function CoinPage({
         <div
           className="h-36 rounded-[12px] bg-[var(--control)] border border-[var(--border)] flex items-center justify-center text-muted text-xs"
           role="img"
-          aria-label="Price chart placeholder — demo"
+          aria-label="Price chart placeholder"
         >
-          Chart placeholder · demo
+          Chart
         </div>
       </section>
 
@@ -99,6 +99,8 @@ export default async function CoinPage({
         </div>
       </section>
 
+      <CoinShare symbol={book.symbol} seatsTaken={seats} bookId={book.id} />
+
       <details className="card overflow-hidden">
         <summary className="p-4 cursor-pointer text-sm font-medium text-secondary min-h-[44px] flex items-center list-none">
           Advanced tools
@@ -112,7 +114,7 @@ export default async function CoinPage({
             )
           )}
           <p className="w-full text-[11px] text-muted mt-2">
-            Demo labels — wire to existing desk tools without changing signing logic.
+            Advanced desk tools attach here without changing how you sign.
           </p>
         </div>
       </details>
