@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@/components/ConnectButton";
 import { MOCK_PORTFOLIO } from "@/lib/mock-data";
+import { McflBalance } from "@/components/McflBalance";
 
 export default function SeatsPage() {
   const { address, isConnected } = useAccount();
@@ -35,6 +36,8 @@ export default function SeatsPage() {
           </p>
         )}
       </div>
+
+      <McflBalance />
 
       <div className="grid grid-cols-2 gap-3">
         <div className="card p-4">
@@ -83,7 +86,8 @@ export default function SeatsPage() {
       )}
 
       <p className="text-[11px] text-muted">
-        Seat list is placeholder until the seat NFT indexer is connected.
+        Seat list is placeholder until the seat NFT indexer is connected. MCFL
+        balance above is a live on-chain read.
       </p>
 
       <Link href="/books" className="btn btn-secondary btn-full">

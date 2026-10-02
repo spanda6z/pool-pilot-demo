@@ -10,7 +10,7 @@ export const CHAIN = {
 } as const;
 
 export const CONTRACTS = {
-  mcflToken: "0x0000000000000000000000000000000000000001",
+  mcflToken: "0x21A91215fbFc4fc002B07cc87698A6fC01Aed523",
   bookFactory: "0x0000000000000000000000000000000000000002",
   seatVault: "0x0000000000000000000000000000000000000003",
   seatNft: "0x0000000000000000000000000000000000000004",
@@ -46,9 +46,9 @@ export interface MockBook {
 export const MOCK_BOOKS: MockBook[] = [
   {
     id: "book-mcfl-001",
-    name: "MCFL Genesis",
+    name: "McFlamingo",
     symbol: "MCFL",
-    description: "First liquidity book on Pool Pilot.",
+    description: "McFlamingo (MCFL) on Robinhood Chain.",
     status: "demo",
     seatsTotal: 18,
     seatsTaken: 7,
@@ -62,7 +62,7 @@ export const MOCK_BOOKS: MockBook[] = [
     feeTier: 3000,
     tickLower: -887220,
     tickUpper: 887220,
-    tags: ["genesis", "demo"],
+    tags: ["genesis", "mcfl"],
   },
   {
     id: "book-pilot-002",
@@ -127,7 +127,7 @@ export const MOCK_PORTFOLIO = {
     {
       tokenId: "42",
       bookId: "book-mcfl-001",
-      bookName: "MCFL Genesis",
+      bookName: "McFlamingo",
       liquidity: "0.05",
       tickLower: -887220,
       tickUpper: 887220,
