@@ -6,6 +6,7 @@ import { TopBar } from "@/components/TopBar";
 import { BottomTabs } from "@/components/BottomTabs";
 import { SiteFooter } from "@/components/SiteFooter";
 import { NetworkBanner } from "@/components/NetworkBanner";
+import { ReferralCapture } from "@/components/ReferralCapture";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -56,6 +57,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Providers>
+          <ReferralCapture />
           <TopBar />
           <NetworkBanner />
           <main className="flex-1 w-full max-w-lg mx-auto px-4 pt-4 pb-2 md:max-w-3xl lg:max-w-5xl">
