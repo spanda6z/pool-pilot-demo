@@ -1,35 +1,46 @@
 "use client";
 
-import { SeatRing } from "@/components/SeatRing";
 import { CopyButton } from "@/components/CopyButton";
+import { SeatRing } from "@/components/SeatRing";
+import { FoundingBadge } from "@/components/FoundingBadge";
+
+interface ShareCardProps {
+  symbol: string;
+  seatsTaken: number;
+  seatsTotal?: number;
+  shareUrl: string;
+  founding?: boolean;
+}
 
 export function ShareCard({
   symbol,
-  seatsTaken = 1,
+  seatsTaken,
   seatsTotal = 18,
   shareUrl,
-}: {
-  symbol: string;
-  seatsTaken?: number;
-  seatsTotal?: number;
-  shareUrl: string;
-}) {
-  const text = `$${symbol} on Pool Pilot — ${seatsTaken}/${seatsTotal} seats filled. ${shareUrl}`;
+  founding = true,
+}: ShareCardProps) {
+  const text = `$${symbol} on Pool Pilot — ${seatsTaken}/${seatsTotal} seats filled. Sit a chair with the team (you sign, non-custodial). ${shareUrl}`;
   const xIntent = `https://x.com/intent/tweet?text=${encodeURIComponent(text)}`;
-  const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&bgcolor=1d1719&color=c6f432&data=${encodeURIComponent(shareUrl)}`;
+  const tgIntent = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(
+    `$${symbol} on Pool Pilot — ${seatsTaken}/${seatsTotal} seats filled`
+  )}`;
+  const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(shareUrl)}`;
 
   return (
-    <section className="card p-5 space-y-4">
-      <div className="flex items-center gap-4">
+    <section className="card p-5 space-y-4" aria-label="Share card">
+      <div className="flex flex-col sm:flex-row gap-5 items-center">
         <SeatRing
           taken={seatsTaken}
           total={seatsTotal}
-          size={96}
-          label={`${seatsTaken} of ${seatsTotal} seats`}
+          size={112}
+          label={`${symbol} seats`}
         />
-        <div className="min-w-0 flex-1">
-          <div className="font-display text-lg font-bold">${symbol}</div>
-          <div className="text-sm text-secondary mt-0.5">
+        <div className="flex-1 text-center sm:text-left space-y-1">
+          <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
+            <span className="font-display text-xl font-bold">${symbol}</span>
+            {founding && <FoundingBadge />}
+          </div>
+          <div className="font-display text-sm text-secondary">
             {seatsTaken}/{seatsTotal} seats filled
           </div>
           <p className="text-xs text-muted mt-2 leading-relaxed">
@@ -57,7 +68,7 @@ export function ShareCard({
             </code>
             <CopyButton text={shareUrl} />
           </div>
-          <div className="flex gap-2 pt-1">
+          <div className="flex flex-wrap gap-2 pt-1">
             <a
               href={xIntent}
               target="_blank"
@@ -65,6 +76,14 @@ export function ShareCard({
               className="btn btn-primary flex-1 text-sm min-h-[40px]"
             >
               Share on X
+            </a>
+            <a
+              href={tgIntent}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary flex-1 text-sm min-h-[40px]"
+            >
+              Telegram
             </a>
             <CopyButton text={text} label="Copy post" />
           </div>

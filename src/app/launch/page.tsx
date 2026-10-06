@@ -2,22 +2,32 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getReferral } from "@/lib/referral";
 
 export default function LaunchPage() {
   const router = useRouter();
   const [ticker, setTicker] = useState("");
   const [minBid, setMinBid] = useState("0.05");
+  const [refCode, setRefCode] = useState("");
   const error =
     ticker.length > 0 && (ticker.length < 2 || ticker.length > 10)
       ? "Ticker must be 2–10 characters"
       : null;
 
+  useEffect(() => {
+    const r = getReferral();
+    if (r) setRefCode(r);
+  }, []);
+
   const go = () => {
     if (!ticker || error) return;
-    router.push(
-      `/launch/review?ticker=${encodeURIComponent(ticker)}&bid=${encodeURIComponent(minBid)}`
-    );
+    const q = new URLSearchParams({
+      ticker,
+      bid: minBid,
+    });
+    if (refCode.trim()) q.set("ref", refCode.trim());
+    router.push(`/launch/review?${q.toString()}`);
   };
 
   return (
@@ -38,9 +48,9 @@ export default function LaunchPage() {
           />
         ))}
       </div>
-      <p className="text-xs text-muted">Step 1 of 3 · Configure</p>
+      <p className="text-xs text-muted">Step 1 of 3 · Name it</p>
 
-      <section className="card p-5 space-y-4">
+      <div className="space-y-4">
         <div>
           <label htmlFor="ticker" className="text-xs text-muted block mb-1.5">
             Ticker
@@ -49,11 +59,16 @@ export default function LaunchPage() {
             id="ticker"
             value={ticker}
             onChange={(e) =>
-              setTicker(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""))
+              setTicker(
+                e.target.value
+                  .toUpperCase()
+                  .replace(/[^A-Z0-9]/g, "")
+                  .slice(0, 10)
+              )
             }
-            placeholder="e.g. MCFL"
-            maxLength={10}
+            placeholder="MCFL"
             autoComplete="off"
+            maxLength={10}
           />
           {error && <p className="text-down text-xs mt-1.5">{error}</p>}
         </div>
@@ -64,47 +79,51 @@ export default function LaunchPage() {
           <input
             id="bid"
             type="number"
+            step="0.001"
+            min="0"
             value={minBid}
             onChange={(e) => setMinBid(e.target.value)}
-            step="0.01"
-            min="0.01"
           />
-          <p className="text-[11px] text-muted mt-1.5">
-            Typical range maps to about $10–$10,000.
-          </p>
         </div>
-      </section>
-
-      <div className="card p-4 text-xs text-secondary space-y-1">
-        <div className="flex justify-between">
-          <span>Supply</span>
-          <span className="font-display">1,000,000,000</span>
-        </div>
-        <div className="flex justify-between">
-          <span>Seats</span>
-          <span className="font-display">18</span>
-        </div>
-        <div className="flex justify-between">
-          <span>You sign</span>
-          <span>Every step</span>
+        <div>
+          <label htmlFor="ref" className="text-xs text-muted block mb-1.5">
+            Referral code (optional)
+          </label>
+          <input
+            id="ref"
+            value={refCode}
+            onChange={(e) => setRefCode(e.target.value.slice(0, 32))}
+            placeholder="friend-code"
+            autoComplete="off"
+          />
         </div>
       </div>
 
       <button
         type="button"
         onClick={go}
-        disabled={!ticker || !!error}
+        disabled={!ticker || Boolean(error)}
         className="btn btn-primary btn-full"
       >
-        Continue to review
+        Continue
       </button>
 
-      <p className="text-[11px] text-muted text-center leading-relaxed">
-        No gas on Robinhood Chain?{" "}
-        <Link href="/about" className="text-lime">
-          How to arrive
+      <section id="fees" className="card p-4 space-y-2 scroll-mt-20">
+        <h2 className="font-display text-sm font-bold">Fees</h2>
+        <p className="text-xs text-secondary leading-relaxed">
+          Platform fees are published on About before any fee is charged. Network
+          gas is paid by you to the chain. Pool Pilot never holds your funds.
+        </p>
+        <Link href="/about" className="text-lime text-xs">
+          Fee details on About
         </Link>
-        . You will review and sign in your wallet.
+      </section>
+
+      <p className="text-[11px] text-muted text-center">
+        You sign every transaction.{" "}
+        <Link href="/security" className="text-secondary hover:underline">
+          Security
+        </Link>
       </p>
     </div>
   );

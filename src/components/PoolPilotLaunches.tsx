@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { POOL_PILOT_LAUNCHES } from "@/lib/trending";
 import { CopyButton } from "@/components/CopyButton";
+import { FoundingBadge } from "@/components/FoundingBadge";
 
 export function PoolPilotLaunches() {
   return (
@@ -14,7 +15,7 @@ export function PoolPilotLaunches() {
         </Link>
       </div>
       <div className="card divide-y divide-[var(--divider)] overflow-hidden">
-        {POOL_PILOT_LAUNCHES.map((c) => (
+        {POOL_PILOT_LAUNCHES.map((c, i) => (
           <div
             key={c.tokenAddress}
             className="flex items-center gap-3 p-3.5 min-h-[64px]"
@@ -26,6 +27,7 @@ export function PoolPilotLaunches() {
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="font-display font-bold text-sm">${c.symbol}</span>
                 <span className="pill pill-fill text-[10px]">{c.note}</span>
+                {i < 10 && <FoundingBadge className="text-[10px]" />}
               </div>
               <div className="text-xs text-muted truncate">{c.name}</div>
             </div>
@@ -44,7 +46,8 @@ export function PoolPilotLaunches() {
         ))}
       </div>
       <p className="text-[10px] text-muted">
-        Coins launched through Pool Pilot. MCFL is live on Robinhood Chain.
+        Coins launched through Pool Pilot. Early launches carry a founding team
+        badge.
       </p>
     </section>
   );
