@@ -2,17 +2,14 @@ import Link from "next/link";
 import { SeatRing } from "@/components/SeatRing";
 import { TrendingList } from "@/components/TrendingList";
 import { PoolPilotLaunches } from "@/components/PoolPilotLaunches";
-import { IS_PLACEHOLDER, SITE } from "@/lib/config";
 import { MCFL } from "@/lib/tokens";
 
 export default function HomePage() {
   return (
     <div className="space-y-8 pb-4">
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="pill pill-live">Live on {SITE.chainName}</span>
-        {IS_PLACEHOLDER && (
-          <span className="pill pill-muted">Trending is live on-chain</span>
-        )}
+        <span className="pill pill-live">Robinhood Chain</span>
+        <span className="pill pill-muted">Non-custodial</span>
       </div>
 
       <section>
@@ -63,7 +60,10 @@ export default function HomePage() {
             >
               DexScreener
             </a>
-            <Link href="/books/book-mcfl-001" className="btn btn-primary text-sm min-h-[40px]">
+            <Link
+              href="/books/book-mcfl-001"
+              className="btn btn-primary text-sm min-h-[40px]"
+            >
               Open book
             </Link>
           </div>
@@ -80,9 +80,21 @@ export default function HomePage() {
         </h2>
         <div className="grid gap-2">
           {[
-            { n: "1", t: "Name it", d: "Pick a ticker and set the min bid per seat." },
-            { n: "2", t: "Mint", d: "You sign. Token and thin Uniswap v3 pool land on-chain." },
-            { n: "3", t: "Seat the team", d: "Up to 18 friends sit chairs. They can sell the chair later." },
+            {
+              n: "1",
+              t: "Name it",
+              d: "Pick a ticker and set the min bid per seat.",
+            },
+            {
+              n: "2",
+              t: "Mint",
+              d: "You sign. Token and thin Uniswap v3 pool land on-chain.",
+            },
+            {
+              n: "3",
+              t: "Seat the team",
+              d: "Up to 18 friends sit chairs. They can sell the chair later.",
+            },
           ].map((s) => (
             <div key={s.n} className="card p-4 flex gap-3 items-start">
               <span className="w-7 h-7 rounded-full bg-[var(--lime)] text-[var(--lime-text)] flex items-center justify-center font-display text-xs font-bold shrink-0">
@@ -90,7 +102,9 @@ export default function HomePage() {
               </span>
               <div>
                 <div className="font-display font-bold text-sm">{s.t}</div>
-                <p className="text-secondary text-xs mt-0.5 leading-relaxed">{s.d}</p>
+                <p className="text-secondary text-xs mt-0.5 leading-relaxed">
+                  {s.d}
+                </p>
               </div>
             </div>
           ))}
@@ -99,11 +113,17 @@ export default function HomePage() {
 
       <p className="text-[11px] text-muted text-center leading-relaxed px-2">
         Non-custodial — you sign; Pool Pilot never holds funds.{" "}
-        <Link href="/security" className="text-secondary underline-offset-2 hover:underline">
+        <Link
+          href="/security"
+          className="text-secondary underline-offset-2 hover:underline"
+        >
           Security
         </Link>
         {" · "}
-        <Link href="/about" className="text-secondary underline-offset-2 hover:underline">
+        <Link
+          href="/about"
+          className="text-secondary underline-offset-2 hover:underline"
+        >
           About
         </Link>
       </p>

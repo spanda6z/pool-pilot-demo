@@ -22,9 +22,26 @@ const space = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Pool Pilot — Meme with a team",
+  title: {
+    default: "Pool Pilot — Meme with a team",
+    template: "%s · Pool Pilot",
+  },
   description:
-    "Launch a coin, sit 18 seats with friends, trade on one Uniswap v3 pool. Non-custodial — you sign.",
+    "Launch a coin, sit 18 seats with friends, trade on Uniswap on Robinhood Chain. Non-custodial — you sign every transaction.",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://poolpilot.xyz"
+  ),
+  openGraph: {
+    title: "Pool Pilot — Meme with a team",
+    description:
+      "Non-custodial launch and seats on Robinhood Chain. You sign every transaction.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Pool Pilot",
+    description: "Meme with a team. Don't meme alone.",
+  },
 };
 
 export default function RootLayout({
