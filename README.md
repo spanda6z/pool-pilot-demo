@@ -1,53 +1,42 @@
 # Pool Pilot
 
-Non-custodial Uniswap v3 launch, 18-seat NFT liquidity, and swap UI for Robinhood Chain (4663).
+Non-custodial launch, 18-seat NFT liquidity, and swap UI for **Robinhood Chain (4663)**.
 
 **You sign every transaction. Pool Pilot never holds funds.**
 
 ## Stack
 
 - Next.js App Router · TypeScript · Tailwind CSS v4
-- **wagmi + viem + TanStack Query** — wallet connect on chain 4663
-- Design: dark `#141012`, lime `#c6f432`, Space Grotesk + Inter
+- wagmi + viem + TanStack Query
+- Live trending via GeckoTerminal (`/api/trending`)
+- Design: `#141012` · lime `#c6f432` · Space Grotesk + Inter
 
 ## Develop
 
 ```bash
 npm install
 cp .env.example .env.local
-# optional: NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=...
 npm run dev
 ```
 
-## Wallet (wagmi)
+## Features
 
-| Piece | Path |
-|-------|------|
-| Chain | `src/lib/chains.ts` (id **4663**) |
-| Config | `src/lib/wagmi.ts` (injected, Coinbase, optional WalletConnect) |
-| Provider | `src/components/Providers.tsx` |
-| Connect UI | `src/components/ConnectButton.tsx` |
-| Wrong network | `src/components/NetworkBanner.tsx` |
-| Guard hook | `src/hooks/useRequireWallet.ts` |
-| ABI stubs | `src/lib/contracts.ts` |
+| Area | Status |
+|------|--------|
+| Wallet connect (chain 4663) | Live |
+| MCFL token balance read | Live (`0x21A9…Aed523`) |
+| Chain trending / Uniswap / new pairs | Live (GeckoTerminal) |
+| Launched on Pool Pilot | MCFL listed |
+| Launch / sit / swap txs | Preview until factory ABIs |
 
-**Connect works now** (MetaMask / injected / Coinbase).  
-**On-chain mint / sit / swap** still need verified factory, seat, and router ABIs + addresses before `writeContract` is enabled.
+## Routes
+
+`/` · `/books` · `/launch` · `/swap` · `/portfolio` · `/about` · `/security` · `/leaderboard` · `/verify`
 
 ## Env
 
-See `.env.example`:
+See `.env.example`. Never put private keys in client env.
 
-- `NEXT_PUBLIC_RPC_URL`
-- `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` (optional)
-- `NEXT_PUBLIC_BOOK_FACTORY` / `SEAT_NFT` / `SWAP_ROUTER` when live
+## Non-custodial
 
-Never put private keys in client env.
-
-## Production checklist
-
-1. `npm install` on Vercel (deps in package.json)
-2. Add WalletConnect project id if you want mobile WC
-3. Drop in verified ABIs + addresses in `src/lib/contracts.ts`
-4. Replace preview `setTimeout` flows with `useWriteContract` / `useWaitForTransactionReceipt`
-5. Fill About TODOs (name, signature, fees)
+Frontend builds calldata only. The connected wallet signs and broadcasts.

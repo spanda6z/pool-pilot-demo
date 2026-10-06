@@ -3,20 +3,19 @@ import Link from "next/link";
 export function SiteFooter() {
   return (
     <footer className="border-t border-[var(--border)] mt-auto">
-      <div className="max-w-lg md:max-w-3xl lg:max-w-5xl mx-auto px-4 py-4 text-[11px] text-muted flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+      <div className="max-w-lg md:max-w-3xl lg:max-w-5xl mx-auto px-4 py-5 text-[11px] text-muted flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
         <p>
-          Built by [TODO: your name] ·{" "}
+          Built with McFlamingo · Ponte Vedra Beach, FL ·{" "}
           <a
-            href="https://mcflamingo.com"
+            href="https://x.com/cheferikosol"
             target="_blank"
             rel="noopener noreferrer"
             className="text-secondary hover:underline"
           >
-            McFlamingo
+            @cheferikosol
           </a>
-          , Ponte Vedra Beach, FL
         </p>
-        <div className="flex flex-wrap gap-x-3 gap-y-1">
+        <nav className="flex flex-wrap gap-x-3 gap-y-1" aria-label="Footer">
           <Link href="/about" className="hover:text-secondary">
             About
           </Link>
@@ -40,7 +39,7 @@ export function SiteFooter() {
           >
             GitHub
           </a>
-        </div>
+        </nav>
       </div>
     </footer>
   );
