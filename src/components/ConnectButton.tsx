@@ -9,6 +9,7 @@ import {
   useSwitchChain,
 } from "wagmi";
 import { TARGET_CHAIN_ID } from "@/lib/chains";
+import { copyToClipboard } from "@/lib/copy";
 
 function short(addr: string) {
   return `${addr.slice(0, 6)}…${addr.slice(-4)}`;
@@ -17,6 +18,7 @@ function short(addr: string) {
 export function ConnectButton() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [copied, setCopied] = useState(false);
   const { address, isConnected, isConnecting } = useAccount();
   const { connectors, connect, isPending, error } = useConnect();
   const { disconnect } = useDisconnect();
@@ -35,6 +37,15 @@ export function ConnectButton() {
 
   if (isConnected && address) {
     const wrongNetwork = chainId !== TARGET_CHAIN_ID;
+
+    const handleCopy = async () => {
+      const ok = await copyToClipboard(address);
+      if (ok) {
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1600);
+      }
+    };
+
     return (
       <div className="relative flex items-center gap-2">
         {wrongNetwork && (
@@ -68,9 +79,15 @@ export function ConnectButton() {
               role="menu"
               className="absolute right-0 top-full mt-2 z-50 card p-2 min-w-[180px] shadow-none"
             >
-              <p className="px-3 py-2 text-[10px] text-muted font-mono break-all">
-                {address}
-              </p>
+              <button
+                type="button"
+                role="menuitem"
+                onClick={handleCopy}
+                className="w-full text-left px-3 py-2 text-[10px] text-muted font-mono break-all hover:bg-[var(--control)] rounded-[12px] min-h-[44px]"
+                title="Click to copy"
+              >
+                {copied ? <span className="text-lime">Copied</span> : address}
+              </button>
               {wrongNetwork && (
                 <p className="px-3 py-1 text-[11px] text-warn">
                   Wrong network — switch to Robinhood Chain (4663)
@@ -79,7 +96,18 @@ export function ConnectButton() {
               <button
                 type="button"
                 role="menuitem"
-                className="btn btn-secondary btn-full text-sm min-h-[40px]"
+                onClick={async () => {
+                  await handleCopy();
+                  setOpen(false);
+                }}
+                className="w-full text-left px-3 py-2.5 text-sm hover:bg-[var(--control)] rounded-[12px] min-h-[44px]"
+              >
+                {copied ? "Copied" : "Copy address"}
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                className="w-full text-left px-3 py-2.5 text-sm text-down hover:bg-[var(--control)] rounded-[12px] min-h-[44px]"
                 onClick={() => {
                   disconnect();
                   setOpen(false);
@@ -109,31 +137,30 @@ export function ConnectButton() {
           <button
             type="button"
             className="fixed inset-0 z-40 cursor-default"
-            aria-label="Close wallet list"
+            aria-label="Close menu"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute right-0 top-full mt-2 z-50 card p-2 min-w-[220px] space-y-1">
-            <p className="px-2 py-1 text-[10px] text-muted">
-              You sign. Pool Pilot never holds keys.
-            </p>
+          <div
+            role="menu"
+            className="absolute right-0 top-full mt-2 z-50 card p-2 min-w-[200px] shadow-none"
+          >
             {connectors.map((c) => (
               <button
                 key={c.uid}
                 type="button"
-                className="btn btn-secondary btn-full text-sm min-h-[44px] justify-start"
+                role="menuitem"
                 disabled={isPending}
                 onClick={() => {
-                  connect({ connector: c, chainId: TARGET_CHAIN_ID });
+                  connect({ connector: c });
                   setOpen(false);
                 }}
+                className="w-full text-left px-3 py-2.5 text-sm hover:bg-[var(--control)] rounded-[12px] min-h-[44px]"
               >
                 {c.name}
               </button>
             ))}
             {error && (
-              <p className="px-2 py-1 text-[11px] text-down break-words">
-                {error.message}
-              </p>
+              <p className="px-3 py-2 text-[11px] text-down">{error.message}</p>
             )}
           </div>
         </>

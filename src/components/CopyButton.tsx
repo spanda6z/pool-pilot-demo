@@ -1,28 +1,38 @@
 "use client";
 
 import { useState } from "react";
+import { copyToClipboard } from "@/lib/copy";
 
-export function CopyButton({ text, label = "Copy" }: { text: string; label?: string }) {
-  const [done, setDone] = useState(false);
+export function CopyButton({
+  text,
+  label = "Copy",
+  className = "",
+}: {
+  text: string;
+  label?: string;
+  className?: string;
+}) {
+  const [status, setStatus] = useState<"idle" | "copied" | "failed">("idle");
 
-  const onCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setDone(true);
-      setTimeout(() => setDone(false), 1500);
-    } catch {
-      setDone(false);
-    }
+  const onCopy = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const ok = await copyToClipboard(text);
+    setStatus(ok ? "copied" : "failed");
+    window.setTimeout(() => setStatus("idle"), 1600);
   };
+
+  const display =
+    status === "copied" ? "Copied" : status === "failed" ? "Failed" : label;
 
   return (
     <button
       type="button"
       onClick={onCopy}
-      className="btn btn-secondary text-xs min-h-[44px] px-3 shrink-0"
-      aria-label={done ? "Copied" : `Copy ${label}`}
+      className={`btn btn-secondary text-xs min-h-[44px] px-3 shrink-0 ${className}`}
+      aria-label={status === "copied" ? "Copied to clipboard" : `Copy ${label}`}
     >
-      {done ? "Copied" : label}
+      {display}
     </button>
   );
 }
