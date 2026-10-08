@@ -116,26 +116,6 @@ export const MOCK_STATS = {
   dataSource: "placeholder" as const,
 };
 
-export const MOCK_PORTFOLIO = {
-  address: "0xAbCdEf0123456789AbCdEf0123456789AbCdEf01",
-  ethBalance: "1.234",
-  tokens: [
-    { symbol: "MCFL", balance: "1000.0", address: CONTRACTS.mcflToken },
-    { symbol: "PILOT", balance: "250.5", address: "" },
-  ],
-  seats: [
-    {
-      tokenId: "42",
-      bookId: "book-mcfl-001",
-      bookName: "McFlamingo",
-      liquidity: "0.05",
-      tickLower: -887220,
-      tickUpper: 887220,
-      status: "active" as const,
-    },
-  ],
-};
-
 export function explorerAddress(addr: string) {
   return `${CHAIN.explorer}/address/${addr}`;
 }
