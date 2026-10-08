@@ -62,6 +62,7 @@ export function ConnectButton() {
           type="button"
           onClick={() => setOpen((v) => !v)}
           className="btn btn-ghost text-sm min-h-[40px] px-4 font-mono"
+          aria-label={`Wallet ${short(address)}`}
           aria-expanded={open}
           aria-haspopup="menu"
         >
@@ -77,7 +78,8 @@ export function ConnectButton() {
             />
             <div
               role="menu"
-              className="absolute right-0 top-full mt-2 z-50 card p-2 min-w-[180px] shadow-none"
+              aria-label="Wallet menu"
+              className="absolute right-0 top-full mt-2 z-50 card p-2 min-w-[220px]"
             >
               <button
                 type="button"
@@ -142,9 +144,10 @@ export function ConnectButton() {
           />
           <div
             role="menu"
-            className="absolute right-0 top-full mt-2 z-50 card p-2 min-w-[200px] shadow-none"
+            aria-label="Wallet connectors"
+            className="absolute right-0 top-full mt-2 z-50 card p-2 min-w-[220px]"
           >
-            {connectors.map((c) => (
+            <div className="px-3 py-2"><div className="font-display font-bold text-sm">Connect wallet</div><p className="text-[11px] text-muted mt-0.5">Choose an available wallet provider.</p></div>{connectors.map((c) => (
               <button
                 key={c.uid}
                 type="button"
@@ -159,9 +162,8 @@ export function ConnectButton() {
                 {c.name}
               </button>
             ))}
-            {error && (
-              <p className="px-3 py-2 text-[11px] text-down">{error.message}</p>
-            )}
+            {connectors.length === 0 && <p className="px-3 py-2 text-[11px] text-muted">No compatible wallet connectors are available.</p>}
+            {error && <p className="px-3 py-2 mt-1 rounded-[10px] bg-[var(--down)]/10 text-[11px] text-down" role="alert">{error.message}</p>}
           </div>
         </>
       )}
