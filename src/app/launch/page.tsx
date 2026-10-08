@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getReferral } from "@/lib/referral";
 
 export default function LaunchPage() {
@@ -10,10 +10,22 @@ export default function LaunchPage() {
   const [ticker, setTicker] = useState("");
   const [minBid, setMinBid] = useState("0.05");
   const [refCode, setRefCode] = useState("");
-  const error =
-    ticker.length > 0 && (ticker.length < 2 || ticker.length > 10)
-      ? "Ticker must be 2–10 characters"
-      : null;
+
+  const tickerError = useMemo(() => {
+    if (!ticker) return null;
+    if (ticker.length < 2 || ticker.length > 10) return "Ticker must be 2–10 characters";
+    return null;
+  }, [ticker]);
+
+  const bidNumber = Number(minBid);
+  const bidError = useMemo(() => {
+    if (!minBid) return "Enter a minimum bid";
+    if (!Number.isFinite(bidNumber) || bidNumber <= 0) return "Minimum bid must be greater than 0";
+    if (bidNumber > 1000) return "Minimum bid must be 1,000 ETH or less";
+    return null;
+  }, [minBid, bidNumber]);
+
+  const canContinue = Boolean(ticker) && !tickerError && !bidError;
 
   useEffect(() => {
     const r = getReferral();
@@ -21,12 +33,12 @@ export default function LaunchPage() {
   }, []);
 
   const go = () => {
-    if (!ticker || error) return;
+    if (!canContinue) return;
     const q = new URLSearchParams({
       ticker,
-      bid: minBid,
+      bid: bidNumber.toString(),
     });
-    if (refCode.trim()) q.set("ref", refCode.trim());
+    if (refCode.trim()) q.set("ref", refCode.trim().slice(0, 32));
     router.push(`/launch/review?${q.toString()}`);
   };
 
@@ -69,9 +81,16 @@ export default function LaunchPage() {
             placeholder="MCFL"
             autoComplete="off"
             maxLength={10}
+            aria-invalid={Boolean(tickerError)}
+            aria-describedby={tickerError ? "ticker-error" : undefined}
           />
-          {error && <p className="text-down text-xs mt-1.5">{error}</p>}
+          {tickerError && (
+            <p id="ticker-error" role="alert" className="text-down text-xs mt-1.5">
+              {tickerError}
+            </p>
+          )}
         </div>
+
         <div>
           <label htmlFor="bid" className="text-xs text-muted block mb-1.5">
             Min bid per seat (ETH)
@@ -79,12 +98,22 @@ export default function LaunchPage() {
           <input
             id="bid"
             type="number"
+            inputMode="decimal"
             step="0.001"
-            min="0"
+            min="0.001"
+            max="1000"
             value={minBid}
             onChange={(e) => setMinBid(e.target.value)}
+            aria-invalid={Boolean(bidError)}
+            aria-describedby={bidError ? "bid-error" : undefined}
           />
+          {bidError && (
+            <p id="bid-error" role="alert" className="text-down text-xs mt-1.5">
+              {bidError}
+            </p>
+          )}
         </div>
+
         <div>
           <label htmlFor="ref" className="text-xs text-muted block mb-1.5">
             Referral code (optional)
@@ -95,6 +124,7 @@ export default function LaunchPage() {
             onChange={(e) => setRefCode(e.target.value.slice(0, 32))}
             placeholder="friend-code"
             autoComplete="off"
+            maxLength={32}
           />
         </div>
       </div>
@@ -102,8 +132,8 @@ export default function LaunchPage() {
       <button
         type="button"
         onClick={go}
-        disabled={!ticker || Boolean(error)}
-        className="btn btn-primary btn-full"
+        disabled={!canContinue}
+        className="btn btn-primary btn-full disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Continue
       </button>
