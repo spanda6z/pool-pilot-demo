@@ -1,10 +1,8 @@
 import type { Abi } from "viem";
 
 /**
- * Canonical interface expected from the Pool Pilot BookFactory.
- *
- * These are intentionally interfaces, not deployed-contract claims.
- * The production factory must implement these selectors before DATA_MODE=live.
+ * ABI generated from the initial Pool Pilot Solidity implementation in /contracts.
+ * Keep this synchronized with deployed and verified bytecode before DATA_MODE=live.
  */
 export const POOL_PILOT_BOOK_FACTORY_ABI = [
   {
@@ -19,21 +17,24 @@ export const POOL_PILOT_BOOK_FACTORY_ABI = [
     name: "getBook",
     stateMutability: "view",
     inputs: [{ name: "bookId", type: "uint256" }],
-    outputs: [
-      { name: "book", type: "address" },
-      { name: "creator", type: "address" },
-      { name: "token", type: "address" },
-      { name: "seatVault", type: "address" },
-      { name: "seatNft", type: "address" },
-      { name: "pool", type: "address" },
-      { name: "seatsTotal", type: "uint16" },
-      { name: "seatsTaken", type: "uint16" },
-    ],
+    outputs: [{
+      name: "info",
+      type: "tuple",
+      components: [
+        { name: "book", type: "address" },
+        { name: "creator", type: "address" },
+        { name: "token", type: "address" },
+        { name: "seatVault", type: "address" },
+        { name: "seatNft", type: "address" },
+        { name: "seatsTotal", type: "uint16" },
+        { name: "seatsTaken", type: "uint16" },
+      ],
+    }],
   },
   {
     type: "function",
     name: "createBook",
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     inputs: [
       { name: "name", type: "string" },
       { name: "symbol", type: "string" },
@@ -41,7 +42,7 @@ export const POOL_PILOT_BOOK_FACTORY_ABI = [
       { name: "seatCount", type: "uint16" },
       { name: "referrer", type: "address" },
     ],
-    outputs: [{ name: "book", type: "address" }],
+    outputs: [{ name: "bookAddress", type: "address" }],
   },
 ] as const satisfies Abi;
 
@@ -69,9 +70,37 @@ export const POOL_PILOT_BOOK_ABI = [
   },
   {
     type: "function",
-    name: "pool",
+    name: "minimumBid",
     stateMutability: "view",
     inputs: [],
-    outputs: [{ name: "", type: "address" }],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+  {
+    type: "function",
+    name: "seatCount",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "uint16" }],
+  },
+  {
+    type: "function",
+    name: "seatsTaken",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "uint16" }],
+  },
+  {
+    type: "function",
+    name: "buySeat",
+    stateMutability: "payable",
+    inputs: [],
+    outputs: [{ name: "tokenId", type: "uint256" }],
+  },
+  {
+    type: "function",
+    name: "finalize",
+    stateMutability: "nonpayable",
+    inputs: [],
+    outputs: [],
   },
 ] as const satisfies Abi;
