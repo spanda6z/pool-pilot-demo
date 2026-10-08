@@ -12,12 +12,13 @@ export default function SeatsPage() {
   if (!isConnected) {
     return (
       <div className="card p-8 text-center space-y-4 max-w-sm mx-auto mt-8">
-        <h1 className="font-display text-xl font-bold">Seats</h1>
-        <p className="text-secondary text-sm">
-          Connect your wallet to see chairs you hold.
-        </p>
-        <div className="flex justify-center">
-          <ConnectButton />
+        <h1 className="font-display text-2xl font-bold mt-2">Your seats</h1>
+          <p className="text-secondary text-sm mt-1">Connect a wallet to view seats and on-chain MCFL balance.</p>
+        </div>
+        <div className="card p-6 text-center space-y-4">
+          <div className="mx-auto w-12 h-12 rounded-full bg-[var(--control)] flex items-center justify-center text-lg">⌂</div>
+          <div><div className="font-display font-bold">Connect to open your portfolio</div><p className="text-xs text-muted mt-1">Seat ownership will appear here once the indexer is connected.</p></div>
+          <div className="flex justify-center"><ConnectButton /></div>
         </div>
       </div>
     );
@@ -40,17 +41,12 @@ export default function SeatsPage() {
       <McflBalance />
 
       <div className="grid grid-cols-2 gap-3">
-        <div className="card p-4">
-          <div className="text-xs text-muted mb-1">Total seat value</div>
-          <div className="font-display text-xl font-bold tabular-nums">
-            {totalValue.toFixed(2)} ETH
-          </div>
-        </div>
-        <div className="card p-4">
-          <div className="text-xs text-muted mb-1">Seats held</div>
-          <div className="font-display text-xl font-bold">{seats.length}</div>
-        </div>
+        <div className="card p-4"><div className="text-[11px] text-muted uppercase tracking-wide mb-1">Seat value</div><div className="font-display text-xl font-bold tabular-nums">{totalValue.toFixed(2)} ETH</div><div className="text-[11px] text-muted mt-1">Sample portfolio data</div></div>
+        <div className="card p-4"><div className="text-[11px] text-muted uppercase tracking-wide mb-1">Seats held</div><div className="font-display text-xl font-bold tabular-nums">{seats.length}</div><div className="text-[11px] text-muted mt-1">Indexing coming soon</div></div>
       </div>
+
+      <section className="space-y-3">
+        <div className="flex items-end justify-between gap-3"><div><h2 className="font-display text-sm font-bold">Seat positions</h2><p className="text-xs text-muted mt-0.5">Your team allocations in one place.</p></div><span className="text-[10px] text-muted uppercase tracking-wide">Preview</span></div>
 
       {seats.length === 0 ? (
         <div className="card p-8 text-center space-y-3">
@@ -67,7 +63,7 @@ export default function SeatsPage() {
             <Link
               key={s.tokenId}
               href={`/portfolio/seats/${s.tokenId}`}
-              className="flex items-center gap-3 p-4 hover:bg-[var(--control)] min-h-[64px]"
+              className="group flex items-center gap-3 p-4 hover:bg-[var(--control)] focus-visible:bg-[var(--control)] min-h-[68px]"
             >
               <div className="flex-1 min-w-0">
                 <div className="font-display font-bold text-sm truncate">
