@@ -31,10 +31,10 @@ export default function LaunchPage() {
   };
 
   return (
-    <div className="space-y-6 pb-4 max-w-md mx-auto">
+    <div className="space-y-6 pb-4">
       <div>
-        <h1 className="font-display text-xl font-bold mb-1">Launch</h1>
-        <p className="text-secondary text-sm leading-relaxed">
+        <h1 className="text-[28px] font-display mb-1">Launch</h1>
+        <p className="text-secondary leading-relaxed">
           Create a token and thin Uniswap v3 pool. You keep the token. Friends
           sit up to 18 chairs.
         </p>
