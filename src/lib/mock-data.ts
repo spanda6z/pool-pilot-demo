@@ -11,13 +11,13 @@ export const CHAIN = {
 
 export const CONTRACTS = {
   mcflToken: "0x21A91215fbFc4fc002B07cc87698A6fC01Aed523",
-  bookFactory: "0x0000000000000000000000000000000000000002",
-  seatVault: "0x0000000000000000000000000000000000000003",
-  seatNft: "0x0000000000000000000000000000000000000004",
-  uniswapV3Factory: "0x0000000000000000000000000000000000000005",
-  swapRouter: "0x0000000000000000000000000000000000000006",
-  protocolTreasury: "0x0000000000000000000000000000000000000007",
-  positionManager: "0x0000000000000000000000000000000000000008",
+  bookFactory: "",
+  seatVault: "",
+  seatNft: "",
+  uniswapV3Factory: "",
+  swapRouter: "",
+  protocolTreasury: "",
+  positionManager: "",
 } as const;
 
 export type BookStatus = "live" | "seats_available" | "full" | "paused" | "demo";
@@ -54,8 +54,8 @@ export const MOCK_BOOKS: MockBook[] = [
     seatsTaken: 7,
     seatPriceEth: "0.05",
     tokenAddress: CONTRACTS.mcflToken,
-    poolAddress: "0x00000000000000000000000000000000000000a1",
-    creator: "0x1111111111111111111111111111111111111111",
+    poolAddress: "",
+    creator: "",
     createdAt: "2026-07-15T12:00:00Z",
     liquidityEth: "12.4",
     volume24h: "3.2",
@@ -73,9 +73,9 @@ export const MOCK_BOOKS: MockBook[] = [
     seatsTotal: 18,
     seatsTaken: 11,
     seatPriceEth: "0.1",
-    tokenAddress: "0x00000000000000000000000000000000000000b2",
-    poolAddress: "0x00000000000000000000000000000000000000b3",
-    creator: "0x2222222222222222222222222222222222222222",
+    tokenAddress: "",
+    poolAddress: "",
+    creator: "",
     createdAt: "2026-08-01T09:30:00Z",
     liquidityEth: "5.8",
     volume24h: "1.1",
@@ -93,9 +93,9 @@ export const MOCK_BOOKS: MockBook[] = [
     seatsTotal: 18,
     seatsTaken: 18,
     seatPriceEth: "0.25",
-    tokenAddress: "0x00000000000000000000000000000000000000c4",
-    poolAddress: "0x00000000000000000000000000000000000000c5",
-    creator: "0x3333333333333333333333333333333333333333",
+    tokenAddress: "",
+    poolAddress: "",
+    creator: "",
     createdAt: "2026-08-20T15:00:00Z",
     liquidityEth: "22.0",
     volume24h: "8.7",
@@ -121,7 +121,7 @@ export const MOCK_PORTFOLIO = {
   ethBalance: "1.234",
   tokens: [
     { symbol: "MCFL", balance: "1000.0", address: CONTRACTS.mcflToken },
-    { symbol: "PILOT", balance: "250.5", address: "0x00000000000000000000000000000000000000b2" },
+    { symbol: "PILOT", balance: "250.5", address: "" },
   ],
   seats: [
     {
