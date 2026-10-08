@@ -1,7 +1,7 @@
 "use client";
 
 import { http, createConfig } from "wagmi";
-import { injected, walletConnect, coinbaseWallet } from "wagmi/connectors";
+import { injected, walletConnect } from "wagmi/connectors";
 import { robinhoodChain } from "@/lib/chains";
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "";
@@ -27,16 +27,8 @@ export const wagmiConfig = createConfig({
             },
             showQrModal: true,
           }),
-          coinbaseWallet({
-            appName: "Pool Pilot",
-            preference: "all",
-          }),
         ]
       : [
-          coinbaseWallet({
-            appName: "Pool Pilot",
-            preference: "all",
-          }),
         ]),
   ],
   transports: {
