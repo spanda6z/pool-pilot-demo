@@ -1,7 +1,6 @@
 /**
  * Production config surface.
- * Set NEXT_PUBLIC_DATA_MODE=live when indexer + contracts are wired.
- * Until then, UI is production-styled with placeholder data — not fake volume claims.
+ * Placeholder mode is intentionally read-only until protocol contracts + indexer are wired.
  */
 export const DATA_MODE =
   (process.env.NEXT_PUBLIC_DATA_MODE as "live" | "placeholder") || "placeholder";
@@ -15,7 +14,7 @@ export const SITE = {
   chainName: "Robinhood Chain",
   explorer:
     process.env.NEXT_PUBLIC_EXPLORER || "https://robinhoodchain.blockscout.com",
-  github: "https://github.com/MCFLAMINGO/pool-pilot",
+  github: "https://github.com/spanda6z/pool-pilot-demo",
   x: "https://x.com/cheferikosol",
   mcflamingo: "https://mcflamingo.com",
   verifyWallet: "https://mcflamingo.com/pool-pilot",
