@@ -19,9 +19,22 @@ export const metadata: Metadata = {
   openGraph: { title: "Pool Pilot", description: "Launch a coin with your team.", type: "website" },
 };
 
+const themeScript = `(() => {
+  try {
+    const saved = localStorage.getItem("pool-pilot-theme");
+    const theme = saved === "dark" || saved === "light"
+      ? saved
+      : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.dataset.theme = theme;
+  } catch {}
+})()`;
+
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" className={`${ibm.variable} ${serif.variable} h-full antialiased`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-full flex flex-col">
         <a href="#main-content" className="skip-link">Skip to content</a>
         <Providers>
