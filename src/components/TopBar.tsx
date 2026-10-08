@@ -6,37 +6,18 @@ import { ConnectButton } from "@/components/ConnectButton";
 
 export function TopBar() {
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-sm">
-      <div className="max-w-lg md:max-w-3xl lg:max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-4 min-w-0">
-          <Link
-            href="/"
-            className="flex items-center gap-2.5 min-h-[44px] shrink-0"
-            aria-label="Pool Pilot home"
-          >
-            <span
-              className="w-8 h-8 rounded-[10px] bg-[var(--lime)] text-[var(--lime-text)] flex items-center justify-center font-display font-bold text-sm"
-              aria-hidden
-            >
-              P
-            </span>
-            <span className="font-display font-bold text-base tracking-tight sm:inline">
-              Pool Pilot
-            </span>
-          </Link>
-          <DesktopNav />
-        </div>
-
-        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-          <Link
-            href="/security"
-            className="text-xs font-medium text-[var(--text-muted)] hover:text-[var(--text)] px-2.5 py-2 min-h-[44px] flex items-center"
-          >
-            Security
-          </Link>
+    <header className="border-b border-[var(--border)] bg-[var(--bg)]">
+      <div className="max-w-[440px] mx-auto px-[18px] h-[68px] flex items-center justify-between gap-3">
+        <Link href="/" className="flex items-center gap-2.5 min-h-[44px] shrink-0" aria-label="Pool Pilot home">
+          <span className="w-8 h-8 rounded-[10px] bg-[#0b6b4f] text-white flex items-center justify-center font-display font-semibold text-sm" aria-hidden>P</span>
+          <span className="font-display text-[19px] font-semibold tracking-tight">Pool Pilot</span>
+        </Link>
+        <div className="flex items-center gap-1 shrink-0">
+          <Link href="/about" className="hidden sm:flex btn btn-secondary text-xs min-h-[34px] px-3">About</Link>
           <ConnectButton />
         </div>
       </div>
+      <div className="hidden"><DesktopNav /></div>
     </header>
   );
 }
