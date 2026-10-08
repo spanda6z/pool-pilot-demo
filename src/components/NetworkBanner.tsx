@@ -12,13 +12,14 @@ export function NetworkBanner() {
 
   return (
     <div
-      className="border-b border-[var(--warn)]/40 bg-[var(--warn)]/10 px-4 py-2 text-center text-xs text-warn"
+      className="border-b border-[var(--warn)]/40 bg-[var(--warn)]/10 px-4 py-2.5"
       role="status"
+      aria-live="polite"
     >
-      Connected to the wrong network.{" "}
+      <span className="font-semibold">Wrong network</span><span className="hidden sm:inline"> · Robinhood Chain (4663) required</span>{" "}
       <button
         type="button"
-        className="underline font-medium min-h-[32px] px-1"
+        className="btn btn-ghost text-xs min-h-[34px] px-2.5 text-warn hover:bg-[var(--warn)]/10"
         disabled={isPending}
         onClick={() => switchChain({ chainId: TARGET_CHAIN_ID })}
       >
