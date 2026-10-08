@@ -8,7 +8,6 @@ import { MCFL } from "@/lib/tokens";
 export default function HomePage() {
   return (
     <div className="space-y-10 pb-6">
-      {/* ——— Introduction ——— */}
       <section className="space-y-5 pt-1">
         <div className="flex items-center gap-2 flex-wrap">
           <span className="pill pill-live">Live on Robinhood Chain</span>
@@ -47,7 +46,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ——— How it works ——— */}
       <section aria-labelledby="how-heading">
         <h2
           id="how-heading"
@@ -91,7 +89,6 @@ export default function HomePage() {
         </ol>
       </section>
 
-      {/* ——— Featured book ——— */}
       <section aria-labelledby="featured-heading">
         <h2
           id="featured-heading"
