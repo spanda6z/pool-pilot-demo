@@ -6,11 +6,12 @@ import { FoundingBadge } from "@/components/FoundingBadge";
 export function PoolPilotLaunches() {
   return (
     <section className="space-y-3">
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex items-end justify-between gap-3">
         <h2 className="font-display text-sm font-bold text-muted uppercase tracking-wide">
           Launched on Pool Pilot
         </h2>
-        <Link href="/launch" className="text-xs text-lime font-medium">
+        <p className="text-[11px] text-muted">Recognized launches from this interface.</p>
+        <Link href="/launch" className="text-xs text-lime font-medium whitespace-nowrap hover:underline">
           Launch a coin
         </Link>
       </div>
@@ -18,7 +19,7 @@ export function PoolPilotLaunches() {
         {POOL_PILOT_LAUNCHES.map((c, i) => (
           <div
             key={c.tokenAddress}
-            className="flex items-center gap-3 p-3.5 min-h-[64px]"
+            className="group flex items-center gap-3 p-3.5 min-h-[68px] hover:bg-[var(--control)]"
           >
             <span className="w-10 h-10 rounded-full bg-[var(--lime)] text-[var(--lime-text)] flex items-center justify-center font-display text-xs font-bold shrink-0">
               {c.symbol.slice(0, 2)}
@@ -46,8 +47,7 @@ export function PoolPilotLaunches() {
         ))}
       </div>
       <p className="text-[10px] text-muted">
-        Coins launched through Pool Pilot. Early launches carry a founding team
-        badge.
+        These entries are the app&apos;s recognized Pool Pilot launches. Verify contract addresses on-chain before trading.
       </p>
     </section>
   );
