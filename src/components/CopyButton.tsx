@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import { copyToClipboard } from "@/lib/copy";
 
 export function CopyButton({
@@ -14,7 +14,7 @@ export function CopyButton({
 }) {
   const [status, setStatus] = useState<"idle" | "copied" | "failed">("idle");
 
-  const onCopy = async (e: React.MouseEvent) => {
+  const onCopy = async (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     const ok = await copyToClipboard(text);
