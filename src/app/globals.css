@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: light;
   --bg: #f3f5f7;
   --card: #ffffff;
   --border: #dde2e8;
@@ -18,6 +19,49 @@
   --radius-card: 12px;
   --radius-pill: 999px;
   --shadow-card: 0 1px 2px rgb(13 27 42 / .04), 0 8px 24px rgb(13 27 42 / .04);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0b1110;
+  --card: #121a18;
+  --border: #26332f;
+  --control: #17211e;
+  --divider: #26332f;
+  --text: #edf4f0;
+  --text-secondary: #aab8b1;
+  --text-muted: #71817a;
+  --lime: #45b98a;
+  --lime-text: #06130e;
+  --up: #5ed39d;
+  --down: #ff8178;
+  --warn: #f0b85a;
+  --shadow-card: 0 1px 2px rgb(0 0 0 / .28), 0 12px 32px rgb(0 0 0 / .22);
+}
+
+html[data-theme="dark"] .btn-primary {
+  color: var(--lime-text);
+}
+
+html[data-theme="dark"] .pill-live {
+  border-color: #275d48;
+  background: #10271e;
+}
+
+html[data-theme="dark"] .pill-fill {
+  color: #f0c66f;
+  border-color: #624c25;
+  background: #292015;
+}
+
+html[data-theme="dark"] .skip-link {
+  color: #06130e;
+}
+
+html[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at 50% -10%, rgb(69 185 138 / .10), transparent 34rem),
+    var(--bg);
 }
 
 @theme inline {
