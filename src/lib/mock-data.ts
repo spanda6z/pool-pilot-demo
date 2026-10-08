@@ -14,10 +14,10 @@ export const CONTRACTS = {
   bookFactory: "",
   seatVault: "",
   seatNft: "",
-  uniswapV3Factory: "",
-  swapRouter: "",
+  uniswapV3Factory: "0x1f7d7550b1b028f7571e69a784071f0205fd2efa",
+  swapRouter: "0xcaf681a66d020601342297493863e78c959e5cb2",
   protocolTreasury: "",
-  positionManager: "",
+  positionManager: "0x73991a25c818bf1f1128deaab1492d45638de0d3",
 } as const;
 
 export type BookStatus = "live" | "seats_available" | "full" | "paused" | "demo";
