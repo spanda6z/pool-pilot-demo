@@ -23,11 +23,12 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <html lang="en" className={`${ibm.variable} ${serif.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
+        <a href="#main-content" className="skip-link">Skip to content</a>
         <Providers>
           <ReferralCapture />
           <TopBar />
           <NetworkBanner />
-          <main className="flex-1 w-full max-w-[440px] mx-auto px-[18px] pt-1 pb-6">
+          <main id="main-content" className="flex-1 w-full max-w-[440px] mx-auto px-[18px] pt-1 pb-6" tabIndex={-1}>
             {children}
           </main>
           <SiteFooter />
