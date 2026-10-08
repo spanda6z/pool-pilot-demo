@@ -19,3 +19,20 @@ export const SITE = {
   mcflamingo: "https://mcflamingo.com",
   verifyWallet: "https://mcflamingo.com/pool-pilot",
 } as const;
+
+
+export const PROTOCOL = {
+  bookFactory: process.env.NEXT_PUBLIC_BOOK_FACTORY || "",
+  seatVault: process.env.NEXT_PUBLIC_SEAT_VAULT || "",
+  seatNft: process.env.NEXT_PUBLIC_SEAT_NFT || "",
+  uniswapV3Factory: process.env.NEXT_PUBLIC_UNISWAP_V3_FACTORY || "",
+  swapRouter: process.env.NEXT_PUBLIC_SWAP_ROUTER || "",
+  protocolTreasury: process.env.NEXT_PUBLIC_PROTOCOL_TREASURY || "",
+  positionManager: process.env.NEXT_PUBLIC_POSITION_MANAGER || "",
+} as const;
+
+export const PROTOCOL_READY = Object.values(PROTOCOL).every(Boolean);
+
+export const PROTOCOL_STATUS = PROTOCOL_READY
+  ? "configured"
+  : "not_configured";
