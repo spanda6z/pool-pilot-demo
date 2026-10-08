@@ -49,6 +49,22 @@ h1,h2,h3,.font-display {
 a { color: inherit; }
 ::selection { background: color-mix(in srgb, var(--lime) 22%, transparent); }
 
+.skip-link {
+  position: fixed;
+  top: .75rem;
+  left: .75rem;
+  z-index: 100;
+  transform: translateY(-180%);
+  padding: .7rem 1rem;
+  border-radius: var(--radius-btn);
+  background: var(--text);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: var(--shadow-card);
+  transition: transform .15s ease;
+}
+.skip-link:focus { transform: translateY(0); }
+
 a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--lime) 28%, transparent);
   outline-offset: 2px;
@@ -136,13 +152,11 @@ input::placeholder,textarea::placeholder { color: var(--text-muted); }
 
 button:disabled { cursor: not-allowed; }
 button, a { touch-action: manipulation; }
-.tab-spacer { height: 4.5rem; }
-
+.tab-spacer { height: calc(4.5rem + env(safe-area-inset-bottom)); }
 @media (min-width: 768px) {
   .tab-spacer { height: 0; }
   body { background: var(--bg); }
 }
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *,*::before,*::after {
