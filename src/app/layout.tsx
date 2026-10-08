@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { IBM_Plex_Sans, Source_Serif_4 } from "next/font/google";
-import " ./globals.css";
+import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { TopBar } from "@/components/TopBar";
 import { BottomTabs } from "@/components/BottomTabs";
