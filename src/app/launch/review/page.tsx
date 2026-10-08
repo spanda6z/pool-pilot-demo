@@ -3,15 +3,31 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import { parseLaunchParams } from "@/lib/launch-validation";
 
 function ReviewInner() {
   const params = useSearchParams();
-  const ticker = params.get("ticker") || "TICKER";
-  const bid = params.get("bid") || "0.05";
+  const parsed = parseLaunchParams(params.get("ticker"), params.get("bid"));
+
+  if (!parsed.ok) {
+    return (
+      <div className="max-w-md mx-auto space-y-5 pb-4">
+        <Link href="/launch" className="text-muted text-sm hover:text-secondary min-h-[44px] inline-flex items-center">← Configure launch</Link>
+        <section className="card p-6 space-y-3">
+          <span className="pill pill-fill text-[10px]">Invalid launch</span>
+          <h1 className="font-display text-2xl font-bold">Check your launch details</h1>
+          <p className="text-secondary text-sm">{parsed.error}</p>
+          <Link href="/launch" className="btn btn-primary btn-full">Back to launch</Link>
+        </section>
+      </div>
+    );
+  }
+
+  const { ticker, bid } = parsed;
 
   return (
     <div className="max-w-md mx-auto space-y-5 pb-4">
-      <Link href="/launch/create" className="text-muted text-sm hover:text-secondary min-h-[44px] inline-flex items-center">← Configure</Link>
+      <Link href="/launch" className="text-muted text-sm hover:text-secondary min-h-[44px] inline-flex items-center">← Configure</Link>
 
       <div aria-label="Launch progress" className="space-y-2">
         <div className="flex gap-2">{[1, 2, 3].map((n) => <div key={n} className={`h-1.5 flex-1 rounded-full ${n <= 2 ? "bg-[var(--lime)]" : "bg-[var(--control)]"}`} />)}</div>
@@ -50,8 +66,8 @@ function ReviewInner() {
         <p className="text-[11px] text-secondary mt-1 leading-relaxed">Only continue when the values above are correct. In production, token and pool creation cannot be undone after the transaction is confirmed.</p>
       </div>
 
-      <Link href={`/launch/deploy?ticker=${encodeURIComponent(ticker)}&bid=${encodeURIComponent(bid)}`} className="btn btn-primary btn-full">Continue to launch preview</Link>
-      <p className="text-[10px] text-muted text-center">You will review the wallet signing state on the next step.</p>
+      <Link href={`/launch/deploy?ticker=${encodeURIComponent(ticker)}&bid=${encodeURIComponent(String(bid))}`} className="btn btn-primary btn-full">Continue to launch preview</Link>
+      <p className="text-[10px] text-muted text-center">The next step is still preview-only and cannot submit a blockchain transaction.</p>
     </div>
   );
 }
