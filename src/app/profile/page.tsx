@@ -5,6 +5,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useAccount } from "wagmi";
 import { TARGET_CHAIN_ID } from "@/lib/chains";
 import { copyToClipboard } from "@/lib/copy";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 type Profile = {
   displayName: string;
@@ -123,6 +124,16 @@ export default function ProfilePage() {
             Switch to Robinhood Chain (4663) before using on-chain features.
           </div>
         )}
+      </section>
+
+      <section className="card p-5">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h2 className="font-display text-lg font-bold">Appearance</h2>
+            <p className="text-xs text-muted mt-1">Choose light or dark mode. Your preference is saved on this device.</p>
+          </div>
+          <ThemeToggle />
+        </div>
       </section>
 
       <form onSubmit={save} className="card p-5 space-y-4">
