@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   useAccount,
@@ -70,30 +71,19 @@ export function ConnectButton() {
         </button>
         {open && (
           <>
-            <button
-              type="button"
-              className="fixed inset-0 z-40 cursor-default"
-              aria-label="Close menu"
-              onClick={() => setOpen(false)}
-            />
-            <div
-              role="menu"
-              aria-label="Wallet menu"
-              className="absolute right-0 top-full mt-2 z-50 card p-2 min-w-[220px]"
-            >
-              <button
-                type="button"
+            <button type="button" className="fixed inset-0 z-40 cursor-default" aria-label="Close menu" onClick={() => setOpen(false)} />
+            <div role="menu" aria-label="Wallet menu" className="absolute right-0 top-full mt-2 z-50 card p-2 min-w-[220px]">
+              <div className="px-3 py-2 text-[10px] text-muted font-mono break-all">{address}</div>
+              <Link
+                href="/profile"
                 role="menuitem"
-                onClick={handleCopy}
-                className="w-full text-left px-3 py-2 text-[10px] text-muted font-mono break-all hover:bg-[var(--control)] rounded-[12px] min-h-[44px]"
-                title="Click to copy"
+                onClick={() => setOpen(false)}
+                className="block w-full text-left px-3 py-2.5 text-sm hover:bg-[var(--control)] rounded-[12px] min-h-[44px]"
               >
-                {copied ? <span className="text-lime">Copied</span> : address}
-              </button>
+                Profile
+              </Link>
               {wrongNetwork && (
-                <p className="px-3 py-1 text-[11px] text-warn">
-                  Wrong network — switch to Robinhood Chain (4663)
-                </p>
+                <p className="px-3 py-1 text-[11px] text-warn">Wrong network — switch to Robinhood Chain (4663)</p>
               )}
               <button
                 type="button"
@@ -136,18 +126,13 @@ export function ConnectButton() {
       </button>
       {open && (
         <>
-          <button
-            type="button"
-            className="fixed inset-0 z-40 cursor-default"
-            aria-label="Close menu"
-            onClick={() => setOpen(false)}
-          />
-          <div
-            role="menu"
-            aria-label="Wallet connectors"
-            className="absolute right-0 top-full mt-2 z-50 card p-2 min-w-[220px]"
-          >
-            <div className="px-3 py-2"><div className="font-display font-bold text-sm">Connect wallet</div><p className="text-[11px] text-muted mt-0.5">Choose an available wallet provider.</p></div>{connectors.map((c) => (
+          <button type="button" className="fixed inset-0 z-40 cursor-default" aria-label="Close menu" onClick={() => setOpen(false)} />
+          <div role="menu" aria-label="Wallet connectors" className="absolute right-0 top-full mt-2 z-50 card p-2 min-w-[220px]">
+            <div className="px-3 py-2">
+              <div className="font-display font-bold text-sm">Connect wallet</div>
+              <p className="text-[11px] text-muted mt-0.5">Choose an available wallet provider.</p>
+            </div>
+            {connectors.map((c) => (
               <button
                 key={c.uid}
                 type="button"
