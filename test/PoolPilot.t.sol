@@ -63,8 +63,12 @@ contract PoolPilotTest is Test {
     function testCannotBuyAgainAfterTransferringSeat() public {
         vm.prank(alice);
         uint256 seatId = book.buySeat{value: 1 ether}();
+        address seatNftAddress = address(book.seatNft());
         vm.prank(alice);
-        book.seatNft().transferFrom(alice, bob, seatId);
+        (bool transferred, ) = seatNftAddress.call(
+            abi.encodeWithSignature("transferFrom(address,address,uint256)", alice, bob, seatId)
+        );
+        assertTrue(transferred);
 
         vm.expectRevert(PoolPilotBook.AlreadyHasSeat.selector);
         vm.prank(alice);
