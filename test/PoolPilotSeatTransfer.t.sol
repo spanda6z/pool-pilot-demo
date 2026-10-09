@@ -24,8 +24,12 @@ contract PoolPilotSeatTransferTest is Test {
         vm.prank(buyer);
         uint256 seatId = book.buySeat{value: 1 ether}();
 
+        address seatNftAddress = address(book.seatNft());
         vm.prank(buyer);
-        book.seatNft().transferFrom(buyer, recipient, seatId);
+        (bool transferred, ) = seatNftAddress.call(
+            abi.encodeWithSignature("transferFrom(address,address,uint256)", buyer, recipient, seatId)
+        );
+        assertTrue(transferred);
 
         vm.expectRevert(PoolPilotBook.AlreadyHasSeat.selector);
         vm.prank(buyer);
@@ -36,8 +40,12 @@ contract PoolPilotSeatTransferTest is Test {
         vm.prank(buyer);
         uint256 seatId = book.buySeat{value: 1 ether}();
 
+        address seatNftAddress = address(book.seatNft());
         vm.prank(buyer);
-        book.seatNft().transferFrom(buyer, recipient, seatId);
+        (bool transferred, ) = seatNftAddress.call(
+            abi.encodeWithSignature("transferFrom(address,address,uint256)", buyer, recipient, seatId)
+        );
+        assertTrue(transferred);
 
         vm.expectRevert(PoolPilotBook.AlreadyHasSeat.selector);
         vm.prank(recipient);
