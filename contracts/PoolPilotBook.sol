@@ -18,6 +18,7 @@ contract PoolPilotBook is ReentrancyGuard {
     uint256 public immutable minimumBid;
     uint16 public seatsTaken;
     bool public finalized;
+    mapping(address => bool) public hasPurchasedSeat;
 
     error Unauthorized();
     error InvalidConfiguration();
@@ -56,7 +57,10 @@ contract PoolPilotBook is ReentrancyGuard {
         if (finalized) revert AlreadyFinalized();
         if (seatsTaken >= seatCount) revert SoldOut();
         if (msg.value < minimumBid) revert BidTooLow();
-        if (seatNft.balanceOf(msg.sender) != 0) revert AlreadyHasSeat();
+        if (hasPurchasedSeat[msg.sender] || seatNft.balanceOf(msg.sender) != 0) {
+            revert AlreadyHasSeat();
+        }
+        hasPurchasedSeat[msg.sender] = true;
         seatVault.deposit{value: msg.value}();
         tokenId = seatNft.mint(msg.sender);
         unchecked { ++seatsTaken; }

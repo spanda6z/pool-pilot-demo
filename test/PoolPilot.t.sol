@@ -48,6 +48,7 @@ contract PoolPilotTest is Test {
         assertEq(book.seatsTaken(), 1);
         assertEq(book.seatsRemaining(), 2);
         assertEq(book.seatNft().ownerOf(seatId), alice);
+        assertTrue(book.hasPurchasedSeat(alice));
         assertEq(address(book.seatVault()).balance, 1 ether);
     }
 
@@ -57,6 +58,24 @@ contract PoolPilotTest is Test {
         vm.expectRevert(PoolPilotBook.AlreadyHasSeat.selector);
         vm.prank(alice);
         book.buySeat{value: 1 ether}();
+    }
+
+    function testCannotBuyAgainAfterTransferringSeat() public {
+        vm.prank(alice);
+        uint256 seatId = book.buySeat{value: 1 ether}();
+        address seatNftAddress = address(book.seatNft());
+        vm.prank(alice);
+        (bool transferred, ) = seatNftAddress.call(
+            abi.encodeWithSignature("transferFrom(address,address,uint256)", alice, bob, seatId)
+        );
+        assertTrue(transferred);
+
+        vm.expectRevert(PoolPilotBook.AlreadyHasSeat.selector);
+        vm.prank(alice);
+        book.buySeat{value: 1 ether}();
+
+        assertEq(book.seatNft().ownerOf(seatId), bob);
+        assertEq(book.seatsTaken(), 1);
     }
 
     function testCannotBuyBelowMinimumBid() public {
