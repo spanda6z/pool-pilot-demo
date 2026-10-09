@@ -11,13 +11,13 @@ export const CHAIN = {
 
 export const CONTRACTS = {
   mcflToken: "0x21A91215fbFc4fc002B07cc87698A6fC01Aed523",
-  bookFactory: "0x0000000000000000000000000000000000000002",
-  seatVault: "0x0000000000000000000000000000000000000003",
-  seatNft: "0x0000000000000000000000000000000000000004",
-  uniswapV3Factory: "0x0000000000000000000000000000000000000005",
-  swapRouter: "0x0000000000000000000000000000000000000006",
-  protocolTreasury: "0x0000000000000000000000000000000000000007",
-  positionManager: "0x0000000000000000000000000000000000000008",
+  bookFactory: "",
+  seatVault: "",
+  seatNft: "",
+  uniswapV3Factory: "0x1f7d7550b1b028f7571e69a784071f0205fd2efa",
+  swapRouter: "0xcaf681a66d020601342297493863e78c959e5cb2",
+  protocolTreasury: "",
+  positionManager: "0x73991a25c818bf1f1128deaab1492d45638de0d3",
 } as const;
 
 export type BookStatus = "live" | "seats_available" | "full" | "paused" | "demo";
@@ -54,8 +54,8 @@ export const MOCK_BOOKS: MockBook[] = [
     seatsTaken: 7,
     seatPriceEth: "0.05",
     tokenAddress: CONTRACTS.mcflToken,
-    poolAddress: "0x00000000000000000000000000000000000000a1",
-    creator: "0x1111111111111111111111111111111111111111",
+    poolAddress: "",
+    creator: "",
     createdAt: "2026-07-15T12:00:00Z",
     liquidityEth: "12.4",
     volume24h: "3.2",
@@ -73,9 +73,9 @@ export const MOCK_BOOKS: MockBook[] = [
     seatsTotal: 18,
     seatsTaken: 11,
     seatPriceEth: "0.1",
-    tokenAddress: "0x00000000000000000000000000000000000000b2",
-    poolAddress: "0x00000000000000000000000000000000000000b3",
-    creator: "0x2222222222222222222222222222222222222222",
+    tokenAddress: "",
+    poolAddress: "",
+    creator: "",
     createdAt: "2026-08-01T09:30:00Z",
     liquidityEth: "5.8",
     volume24h: "1.1",
@@ -93,9 +93,9 @@ export const MOCK_BOOKS: MockBook[] = [
     seatsTotal: 18,
     seatsTaken: 18,
     seatPriceEth: "0.25",
-    tokenAddress: "0x00000000000000000000000000000000000000c4",
-    poolAddress: "0x00000000000000000000000000000000000000c5",
-    creator: "0x3333333333333333333333333333333333333333",
+    tokenAddress: "",
+    poolAddress: "",
+    creator: "",
     createdAt: "2026-08-20T15:00:00Z",
     liquidityEth: "22.0",
     volume24h: "8.7",
@@ -114,26 +114,6 @@ export const MOCK_STATS = {
   lastUpdated: new Date().toISOString(),
   sourceBlock: "2212972",
   dataSource: "placeholder" as const,
-};
-
-export const MOCK_PORTFOLIO = {
-  address: "0xAbCdEf0123456789AbCdEf0123456789AbCdEf01",
-  ethBalance: "1.234",
-  tokens: [
-    { symbol: "MCFL", balance: "1000.0", address: CONTRACTS.mcflToken },
-    { symbol: "PILOT", balance: "250.5", address: "0x00000000000000000000000000000000000000b2" },
-  ],
-  seats: [
-    {
-      tokenId: "42",
-      bookId: "book-mcfl-001",
-      bookName: "McFlamingo",
-      liquidity: "0.05",
-      tickLower: -887220,
-      tickUpper: 887220,
-      status: "active" as const,
-    },
-  ],
 };
 
 export function explorerAddress(addr: string) {
