@@ -57,7 +57,9 @@ contract PoolPilotBook is ReentrancyGuard {
         if (finalized) revert AlreadyFinalized();
         if (seatsTaken >= seatCount) revert SoldOut();
         if (msg.value < minimumBid) revert BidTooLow();
-        if (hasPurchasedSeat[msg.sender]) revert AlreadyHasSeat();
+        if (hasPurchasedSeat[msg.sender] || seatNft.balanceOf(msg.sender) != 0) {
+            revert AlreadyHasSeat();
+        }
         hasPurchasedSeat[msg.sender] = true;
         seatVault.deposit{value: msg.value}();
         tokenId = seatNft.mint(msg.sender);
