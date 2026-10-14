@@ -1,16 +1,17 @@
 "use client";
 
 import { http, createConfig } from "wagmi";
-import { injected, walletConnect } from "wagmi/connectors";
+// Deep imports — NEVER use `wagmi/connectors` barrel (pulls baseAccount → Coinbase → @x402 and breaks Vercel).
+import { injected } from "@wagmi/connectors/injected";
+import { walletConnect } from "@wagmi/connectors/walletConnect";
 import { robinhoodChain } from "@/lib/chains";
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "";
 
 /**
  * Wagmi config — non-custodial. User wallet signs; we never hold keys.
- * Injected only by default (MetaMask, Rabby, etc.).
- * Coinbase connector is intentionally omitted — it pulls broken @x402 deps and fails Vercel builds.
- * WalletConnect only when NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID is set.
+ * Injected (MetaMask, Rabby, etc.) works without WalletConnect project id.
+ * Coinbase / baseAccount intentionally not imported.
  */
 export const wagmiConfig = createConfig({
   chains: [robinhoodChain],
