@@ -1,37 +1,19 @@
 "use client";
 
 import { http, createConfig } from "wagmi";
-// Deep imports — NEVER use `wagmi/connectors` barrel (pulls baseAccount → Coinbase → @x402 and breaks Vercel).
-import { injected } from "@wagmi/connectors/injected";
-import { walletConnect } from "@wagmi/connectors/walletConnect";
 import { robinhoodChain } from "@/lib/chains";
-
-const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "";
+import { injectedConnector } from "@/lib/injectedConnector";
 
 /**
  * Wagmi config — non-custodial. User wallet signs; we never hold keys.
- * Injected (MetaMask, Rabby, etc.) works without WalletConnect project id.
- * Coinbase / baseAccount intentionally not imported.
+ *
+ * Uses a local injected connector only — does NOT import `wagmi/connectors`
+ * or `@wagmi/connectors` (those barrels pull Coinbase baseAccount → @x402
+ * and break the Vercel webpack build).
  */
 export const wagmiConfig = createConfig({
   chains: [robinhoodChain],
-  connectors: [
-    injected({ shimDisconnect: true }),
-    ...(projectId
-      ? [
-          walletConnect({
-            projectId,
-            metadata: {
-              name: "Pool Pilot",
-              description: "Non-custodial launch and seats on Robinhood Chain",
-              url: process.env.NEXT_PUBLIC_SITE_URL || "https://poolpilot.xyz",
-              icons: [],
-            },
-            showQrModal: true,
-          }),
-        ]
-      : []),
-  ],
+  connectors: [injectedConnector({ shimDisconnect: true })],
   transports: {
     [robinhoodChain.id]: http(
       process.env.NEXT_PUBLIC_RPC_URL ||
@@ -39,6 +21,7 @@ export const wagmiConfig = createConfig({
     ),
   },
   ssr: true,
+  multiInjectedProviderDiscovery: true,
 });
 
 declare module "wagmi" {

@@ -14,8 +14,7 @@ const nextConfig: NextConfig = {
     ],
   },
   webpack: (config) => {
-    // Coinbase/baseAccount optional deps — never required for injected wallets.
-    // Stub so residual barrel imports cannot fail the production build.
+    // Belt-and-suspenders: if anything still resolves Coinbase/@x402, stub it.
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
@@ -26,6 +25,8 @@ const nextConfig: NextConfig = {
       "@x402/core/client": emptyStub,
       "@x402/svm": emptyStub,
       "@x402/svm/exact/client": emptyStub,
+      "@base-org/account": emptyStub,
+      "@coinbase/cdp-sdk": emptyStub,
     };
     return config;
   },
