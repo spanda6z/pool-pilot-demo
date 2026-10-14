@@ -8,8 +8,9 @@ const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "";
 
 /**
  * Wagmi config — non-custodial. User wallet signs; we never hold keys.
- * Injected (MetaMask, Rabby, etc.) works without WalletConnect project id.
- * WalletConnect needs NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID from cloud.walletconnect.com
+ * Injected only by default (MetaMask, Rabby, etc.).
+ * Coinbase connector is intentionally omitted — it pulls broken @x402 deps and fails Vercel builds.
+ * WalletConnect only when NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID is set.
  */
 export const wagmiConfig = createConfig({
   chains: [robinhoodChain],
@@ -28,8 +29,7 @@ export const wagmiConfig = createConfig({
             showQrModal: true,
           }),
         ]
-      : [
-        ]),
+      : []),
   ],
   transports: {
     [robinhoodChain.id]: http(
