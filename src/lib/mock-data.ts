@@ -33,6 +33,8 @@ export interface MockBook {
   seatPriceEth: string;
   tokenAddress: string;
   poolAddress: string;
+  /** Live PoolPilotBook address — enables buySeat() when set */
+  bookContract?: string;
   creator: string;
   createdAt: string;
   liquidityEth: string;
@@ -55,6 +57,7 @@ export const MOCK_BOOKS: MockBook[] = [
     seatPriceEth: "0.05",
     tokenAddress: CONTRACTS.mcflToken,
     poolAddress: "",
+    bookContract: undefined,
     creator: "",
     createdAt: "2026-07-15T12:00:00Z",
     liquidityEth: "12.4",
@@ -75,6 +78,7 @@ export const MOCK_BOOKS: MockBook[] = [
     seatPriceEth: "0.1",
     tokenAddress: "",
     poolAddress: "",
+    bookContract: undefined,
     creator: "",
     createdAt: "2026-08-01T09:30:00Z",
     liquidityEth: "5.8",
@@ -95,6 +99,7 @@ export const MOCK_BOOKS: MockBook[] = [
     seatPriceEth: "0.25",
     tokenAddress: "",
     poolAddress: "",
+    bookContract: undefined,
     creator: "",
     createdAt: "2026-08-20T15:00:00Z",
     liquidityEth: "22.0",
