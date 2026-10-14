@@ -6,14 +6,15 @@ import {
   numberToHex,
   type Address,
   type Hex,
-  type ProviderConnectInfo,
-  type ProviderRpcError,
 } from "viem";
 
 type EthereumProvider = {
   request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
   on?: (event: string, listener: (...args: unknown[]) => void) => void;
-  removeListener?: (event: string, listener: (...args: unknown[]) => void) => void;
+  removeListener?: (
+    event: string,
+    listener: (...args: unknown[]) => void
+  ) => void;
 };
 
 function getProvider(): EthereumProvider | undefined {
@@ -23,7 +24,7 @@ function getProvider(): EthereumProvider | undefined {
 
 /**
  * Minimal EIP-1193 injected connector (MetaMask, Rabby, etc.).
- * Does not import @wagmi/connectors — avoids Coinbase/baseAccount → @x402 webpack failure.
+ * Does not import @wagmi/connectors — avoids Coinbase/baseAccount → @x402 build failure.
  */
 export function injectedConnector(parameters?: {
   shimDisconnect?: boolean;
@@ -35,17 +36,22 @@ export function injectedConnector(parameters?: {
     name: "Browser Wallet",
     type: "injected" as const,
 
-    async setup() {
-      // no-op
-    },
+    async setup() {},
 
-    async connect({ chainId } = {}) {
+    async connect(parameters = {}) {
       const provider = getProvider();
       if (!provider) {
-        throw new Error("No injected wallet found. Install MetaMask or another browser wallet.");
+        throw new Error(
+          "No injected wallet found. Install MetaMask or another browser wallet."
+        );
       }
 
-      const accounts = (await provider.request({
+      const chainId = parameters.chainId;
+      const withCapabilities = Boolean(
+        "withCapabilities" in parameters && parameters.withCapabilities
+      );
+
+      const rawAccounts = (await provider.request({
         method: "eth_requestAccounts",
       })) as string[];
 
@@ -58,7 +64,7 @@ export function injectedConnector(parameters?: {
           });
           currentChainId = chainId;
         } catch {
-          // user rejected or chain not added — keep current
+          // user rejected or chain not added
         }
       }
 
@@ -70,8 +76,20 @@ export function injectedConnector(parameters?: {
         }
       }
 
+      const addresses = rawAccounts.map((a) => getAddress(a)) as Address[];
+
+      if (withCapabilities) {
+        return {
+          accounts: addresses.map((address) => ({
+            address,
+            capabilities: {} as Record<string, unknown>,
+          })),
+          chainId: currentChainId,
+        };
+      }
+
       return {
-        accounts: accounts.map((a) => getAddress(a)) as readonly Address[],
+        accounts: addresses,
         chainId: currentChainId,
       };
     },
@@ -88,11 +106,11 @@ export function injectedConnector(parameters?: {
 
     async getAccounts() {
       const provider = getProvider();
-      if (!provider) return [];
+      if (!provider) return [] as Address[];
       const accounts = (await provider.request({
         method: "eth_accounts",
       })) as string[];
-      return accounts.map((a) => getAddress(a)) as readonly Address[];
+      return accounts.map((a) => getAddress(a)) as Address[];
     },
 
     async getChainId() {
@@ -125,7 +143,7 @@ export function injectedConnector(parameters?: {
         return;
       }
       config.emitter.emit("change", {
-        accounts: accounts.map((a) => getAddress(a)) as readonly Address[],
+        accounts: accounts.map((a) => getAddress(a)) as Address[],
       });
     },
 
@@ -135,9 +153,9 @@ export function injectedConnector(parameters?: {
     },
 
     onConnect(connectInfo) {
-      const info = connectInfo as ProviderConnectInfo;
+      const info = connectInfo as { chainId: string };
       config.emitter.emit("connect", {
-        accounts: [],
+        accounts: [] as Address[],
         chainId: Number.parseInt(info.chainId, 16),
       });
     },
